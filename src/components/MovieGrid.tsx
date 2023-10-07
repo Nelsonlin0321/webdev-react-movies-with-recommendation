@@ -4,17 +4,18 @@ import useMovie from "../hooks/useMovie";
 import MovieCard from "./MovieCards";
 
 export interface Props {
-  selectedGenre: String | null;
+  selectedGenre: string;
+  selectedOrderBy: string;
 }
 
-const MovieGrid = ({ selectedGenre }: Props) => {
+const MovieGrid = ({ selectedGenre, selectedOrderBy }: Props) => {
   selectedGenre = selectedGenre === "All" ? "" : selectedGenre;
 
   const { movies, error, isLoading } = useMovie(
     {
-      params: { genre: selectedGenre },
+      params: { genre: selectedGenre, order_by: selectedOrderBy },
     },
-    [selectedGenre]
+    [selectedGenre, selectedOrderBy]
   );
   const numberOfSkeleton = 30;
   const skeletons = [];

@@ -4,7 +4,7 @@ import ColorModeSwitch from "./ColorModeSwitch";
 
 const NavBar = () => {
   return (
-    <HStack justify="space-between" padding="10px">
+    <HStack justify="space-between" paddingLeft="30px">
       <GiHamburgerMenu size="40" />
       <ColorModeSwitch />
     </HStack>

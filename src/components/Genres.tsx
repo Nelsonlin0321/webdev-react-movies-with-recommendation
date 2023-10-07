@@ -12,7 +12,7 @@ const GenresList = ({ selectedGenre, onSelectGenre }: Props) => {
       {genres.map((genre) => (
         <ListItem key={genre} paddingY="5px">
           <Button
-            fontSize="sm"
+            fontSize="base"
             variant="link"
             textAlign="left"
             whiteSpace="normal"

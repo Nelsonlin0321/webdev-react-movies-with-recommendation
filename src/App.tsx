@@ -1,11 +1,13 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Box } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import MovieGrid from "./components/MovieGrid";
 import GenresList from "./components/Genres";
 import { useState } from "react";
+import SortSelector from "./components/SortSelector";
 
 function App() {
-  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const [selectedGenre, setSelectedGenre] = useState<string>("");
+  const [selectedOrderBy, setSelectedOrderBy] = useState<string>("");
 
   return (
     <Grid
@@ -30,7 +32,17 @@ function App() {
       </GridItem>
 
       <GridItem area="main">
-        <MovieGrid selectedGenre={selectedGenre} />
+        <Box paddingLeft="10px">
+          <SortSelector
+            OnOrderBy={setSelectedOrderBy}
+            Orderby={selectedOrderBy}
+          />
+        </Box>
+
+        <MovieGrid
+          selectedGenre={selectedGenre}
+          selectedOrderBy={selectedOrderBy}
+        />
       </GridItem>
     </Grid>
   );
