@@ -1,4 +1,4 @@
-import { Badge, Card, CardBody, Heading, Image, Stack } from "@chakra-ui/react";
+import { Badge, Card, CardBody, Heading, Image, Wrap } from "@chakra-ui/react";
 import { Movie } from "../hooks/useMovie";
 import ReleaseYear from "./ReleaseYear";
 import StarRating from "./StarRating";
@@ -20,13 +20,13 @@ const MovieCard = ({ movie }: Props) => {
 
           <StarRating rating={movie.rating} />
 
-          <Stack direction="row">
+          <Wrap>
             {movie.genres.map((g) => (
-              <Badge key={g} variant="outline">
+              <Badge key={g} variant="outline" fontSize="10px">
                 {g}
               </Badge>
             ))}
-          </Stack>
+          </Wrap>
         </CardBody>
       </Card>
     </MovieCardContainer>
