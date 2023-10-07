@@ -8,6 +8,7 @@ function App() {
       templateAreas={`"nav nav" 
                       "aside recommendation"
                       "aside main"`}
+      gridTemplateColumns={"150px 1fr"}
     >
       <GridItem area="nav" bg="coral">
         <NavBar />
