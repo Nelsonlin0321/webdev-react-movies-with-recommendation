@@ -7,7 +7,6 @@ const MovieGrid = () => {
   const { movies, error, isLoading } = useMovie();
   const numberOfSkeleton = 30;
   const skeletons = [];
-
   for (let i = 0; i < numberOfSkeleton; i++) {
     skeletons.push(i);
   }
@@ -23,9 +22,11 @@ const MovieGrid = () => {
       >
         {isLoading &&
           skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
-        {movies.map((movie) => (
-          <MovieCard key={movie.movie_id} movie={movie} />
-        ))}
+
+        {!isLoading &&
+          movies.map((movie) => (
+            <MovieCard key={movie.movie_id} movie={movie} />
+          ))}
       </SimpleGrid>
     </>
   );

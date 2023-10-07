@@ -12,7 +12,7 @@ const MovieCard = ({ movie }: Props) => {
       <Image src={movie.image_url} />
       <CardBody padding="10px">
         <ReleaseYear release_year={movie.release_year} />
-        <Heading fontSize="lg">{movie.title}</Heading>
+        <Heading fontSize="md">{movie.title}</Heading>
         <StarRating rating={movie.rating} />
       </CardBody>
     </Card>
