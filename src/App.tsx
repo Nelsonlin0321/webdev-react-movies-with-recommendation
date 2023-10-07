@@ -21,7 +21,7 @@ function App() {
         Recommendation
       </GridItem>
 
-      <GridItem area="main" bg="pink.300">
+      <GridItem area="main">
         <MovieGrid />
       </GridItem>
     </Grid>
