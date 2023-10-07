@@ -28,7 +28,11 @@ const StarRating = ({ rating }: Props) => {
     );
   }
 
-  return <HStack spacing="space-between">{stars.map((star) => star)}</HStack>;
+  return (
+    <HStack spacing="space-between" marginBottom="5px">
+      {stars.map((star) => star)}
+    </HStack>
+  );
 };
 
 export default StarRating;
