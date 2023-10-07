@@ -1,0 +1,11 @@
+.image-card {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s; /* Add smooth transition */
+}
+
+.image-card:active {
+  transform: scale(0.8); /* Example effect: reduce the size of the card */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Example effect: add a shadow */
+}

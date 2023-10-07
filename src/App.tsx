@@ -8,6 +8,7 @@ import SortSelector from "./components/SortSelector";
 function App() {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedOrderBy, setSelectedOrderBy] = useState<string>("");
+  const [selectedMovies, setSelectedMovies] = useState<number[]>([]);
 
   return (
     <Grid
@@ -42,6 +43,9 @@ function App() {
         <MovieGrid
           selectedGenre={selectedGenre}
           selectedOrderBy={selectedOrderBy}
+          addMovie={(movie_id: number) =>
+            setSelectedMovies([...selectedMovies, movie_id])
+          }
         />
       </GridItem>
     </Grid>
