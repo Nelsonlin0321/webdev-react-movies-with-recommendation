@@ -1,13 +1,13 @@
 import { Badge, Card, CardBody, Heading, Image, Wrap } from "@chakra-ui/react";
-import { Movie } from "../hooks/useMovie";
 import ReleaseYear from "./ReleaseYear";
 import StarRating from "./StarRating";
 import MovieCardContainer from "./MovieCardContainer";
 import "./MovieCard.css";
+import { Movie } from "../hooks/useMovie";
 
 interface Props {
   movie: Movie;
-  addMovie: (movie_id: number) => void;
+  addMovie: (movie: Movie) => void;
 }
 
 const MovieCard = ({ movie, addMovie }: Props) => {
@@ -18,7 +18,7 @@ const MovieCard = ({ movie, addMovie }: Props) => {
         rounded="md"
         marginBottom={"5px"}
         className="image-card"
-        onClick={() => addMovie(movie.movie_id)}
+        onClick={() => addMovie(movie)}
       >
         <Image src={movie.image_url} />
         <CardBody padding="10px">

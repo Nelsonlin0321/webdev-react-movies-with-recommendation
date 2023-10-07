@@ -1,20 +1,33 @@
-import { Grid, GridItem, Box } from "@chakra-ui/react";
+import { Grid, GridItem, Box, Heading } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import MovieGrid from "./components/MovieGrid";
 import GenresList from "./components/Genres";
 import { useState } from "react";
 import SortSelector from "./components/SortSelector";
+import useMovie from "./hooks/useMovie";
+import MoviesSelected from "./components/MoviesSelected";
+import { Movie } from "./hooks/useMovie";
+import SectionHeading from "./components/SectionHeading";
 
 function App() {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedOrderBy, setSelectedOrderBy] = useState<string>("");
-  const [selectedMovies, setSelectedMovies] = useState<number[]>([]);
+  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
+
+  const { movies, error, isLoading } = useMovie(
+    {
+      params: { genre: selectedGenre, order_by: selectedOrderBy },
+    },
+    [selectedGenre, selectedOrderBy]
+  );
 
   return (
     <Grid
       templateAreas={`"nav nav" 
                       "aside recommendation"
-                      "aside main"`}
+                      "aside selection"
+                      "aside main"
+                      `}
       gridTemplateColumns={"120px 1fr"}
     >
       <GridItem area="nav">
@@ -28,12 +41,9 @@ function App() {
         />
       </GridItem>
 
-      <GridItem area="recommendation" bg="blue">
-        Recommendation
-      </GridItem>
-
       <GridItem area="main">
         <Box paddingLeft="10px">
+          <SectionHeading text="Find and click movies you like" />
           <SortSelector
             OnOrderBy={setSelectedOrderBy}
             Orderby={selectedOrderBy}
@@ -42,12 +52,22 @@ function App() {
 
         <MovieGrid
           selectedGenre={selectedGenre}
-          selectedOrderBy={selectedOrderBy}
-          addMovie={(movie_id: number) =>
-            setSelectedMovies([...selectedMovies, movie_id])
+          movies={movies}
+          error={error}
+          isLoading={isLoading}
+          addMovie={(movie: Movie) =>
+            setSelectedMovies([...selectedMovies, movie])
           }
         />
       </GridItem>
+      {selectedMovies.length != 0 && (
+        <GridItem area="selection">
+          <Box paddingLeft="10px">
+            <SectionHeading text="Which movies selected" />
+            <MoviesSelected selectedMovies={selectedMovies} />
+          </Box>
+        </GridItem>
+      )}
     </Grid>
   );
 }

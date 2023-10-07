@@ -1,23 +1,24 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import MovieCardSkeleton from "./MovieCardSkeleton";
-import useMovie from "../hooks/useMovie";
 import MovieCard from "./MovieCard";
-
+import { Movie } from "../hooks/useMovie";
 interface Props {
   selectedGenre: string;
-  selectedOrderBy: string;
-  addMovie: (movie_id: number) => void;
+  movies: Movie[];
+  error: any;
+  isLoading: any;
+  addMovie: (movie: Movie) => void;
 }
 
-const MovieGrid = ({ selectedGenre, selectedOrderBy, addMovie }: Props) => {
+const MovieGrid = ({
+  selectedGenre,
+  movies,
+  error,
+  isLoading,
+  addMovie,
+}: Props) => {
   selectedGenre = selectedGenre === "All" ? "" : selectedGenre;
 
-  const { movies, error, isLoading } = useMovie(
-    {
-      params: { genre: selectedGenre, order_by: selectedOrderBy },
-    },
-    [selectedGenre, selectedOrderBy]
-  );
   const numberOfSkeleton = 30;
   const skeletons = [];
   for (let i = 0; i < numberOfSkeleton; i++) {
