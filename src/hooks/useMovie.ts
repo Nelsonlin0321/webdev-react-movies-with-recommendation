@@ -9,6 +9,7 @@ export interface Movie {
   genres: string[];
   genre: string;
   title: string;
+  rating: number;
 }
 
 interface FetchMoviesResponse {
