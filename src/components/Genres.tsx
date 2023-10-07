@@ -1,13 +1,26 @@
-import { HStack, List, ListItem, Text } from "@chakra-ui/react";
+import { Button, List, ListItem, Text } from "@chakra-ui/react";
 import genres from "../data/genres";
-const GenresList = () => {
+
+interface Props {
+  selectedGenre: String | null;
+  onSelectGenre: (genre: string) => void;
+}
+
+const GenresList = ({ selectedGenre, onSelectGenre }: Props) => {
   return (
     <List>
       {genres.map((genre) => (
         <ListItem key={genre} paddingY="5px">
-          <HStack>
-            <Text fontSize="lg">{genre}</Text>
-          </HStack>
+          <Button
+            fontSize="sm"
+            variant="link"
+            textAlign="left"
+            whiteSpace="normal"
+            fontWeight={genre === selectedGenre ? "bold" : "normal"}
+            onClick={() => onSelectGenre(genre)}
+          >
+            <Text>{genre}</Text>
+          </Button>
         </ListItem>
       ))}
     </List>

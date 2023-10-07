@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../components/services/api-client";
-import { CanceledError } from "axios";
+import { AxiosRequestConfig, CanceledError } from "axios";
 
 export interface Movie {
   movie_id: number;
@@ -17,7 +17,8 @@ interface FetchMoviesResponse {
   results: Movie[];
 }
 
-const useMovie = () => {
+
+const useMovie = (requestConfig?: AxiosRequestConfig,deps?:any[]) => {
 
 
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -28,7 +29,7 @@ const useMovie = () => {
       const controller = new AbortController();
       setLoading(true);
     apiClient
-      .get<FetchMoviesResponse>("/movies/",{signal:controller.signal})
+      .get<FetchMoviesResponse>("/movies/",{signal:controller.signal,...requestConfig})
       .then((res) => {
         setMovies(res.data.results);
         setLoading(false);
@@ -39,7 +40,7 @@ const useMovie = () => {
             setLoading(false);
           };
       });
-  }, []);
+  }, deps);
     
     return {movies,error,isLoading,setLoading}
 }
