@@ -22,18 +22,26 @@ const useMovie = () => {
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
       const controller = new AbortController();
+      setLoading(true);
     apiClient
       .get<FetchMoviesResponse>("/movies/",{signal:controller.signal})
-      .then((res) => setMovies(res.data.results))
+      .then((res) => {
+        setMovies(res.data.results);
+        setLoading(false);
+      })
         .catch((err) => {
-          if (!(err instanceof CanceledError)) setError(err.message);
+          if (!(err instanceof CanceledError)) {
+            setError(err.message);
+            setLoading(false);
+          };
       });
   }, []);
     
-    return {movies,error}
+    return {movies,error,isLoading,setLoading}
 }
 
 export default useMovie
