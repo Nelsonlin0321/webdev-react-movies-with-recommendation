@@ -17,7 +17,7 @@ import { ReactNode } from "react";
 
 interface Props {
   movie: Movie;
-  addMovie: (movie: Movie) => void;
+  addMovie?: (movie: Movie) => void;
   imageClassName?: string;
   closeButton?: ReactNode;
 }
@@ -30,7 +30,7 @@ const MovieCard = ({ movie, addMovie, imageClassName, closeButton }: Props) => {
         rounded="md"
         marginBottom={"5px"}
         className={imageClassName}
-        onClick={() => addMovie(movie)}
+        onClick={() => addMovie?.(movie)}
       >
         {closeButton}
 
