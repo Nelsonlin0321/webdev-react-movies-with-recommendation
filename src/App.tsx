@@ -53,7 +53,7 @@ function App() {
       <GridItemContainer>
         <GridItem area="form">
           <SectionHeading text="Let me know about you" />
-          <Form />
+          <Form selectedMovies={selectedMovies} />
         </GridItem>
       </GridItemContainer>
 

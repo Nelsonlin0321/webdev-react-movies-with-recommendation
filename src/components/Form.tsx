@@ -13,11 +13,19 @@ import {
   RadioGroup,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
+import { Movie } from "../hooks/useMovie";
 
-const Form = () => {
+interface Props {
+  selectedMovies: Movie[];
+}
+
+const Form = ({ selectedMovies }: Props) => {
   const { handleSubmit, register } = useForm();
 
-  const submitHandler = (data: FieldValues) => console.log(data);
+  const submitHandler = (data: FieldValues) => {
+    console.log(data);
+    console.log(selectedMovies.map((movie) => movie.movie_id));
+  };
 
   return (
     <Box paddingBottom={4}>
