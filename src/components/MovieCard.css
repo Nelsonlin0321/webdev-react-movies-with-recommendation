@@ -9,3 +9,9 @@
   transform: scale(0.8); /* Example effect: reduce the size of the card */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Example effect: add a shadow */
 }
+
+.close-btn {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}

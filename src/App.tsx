@@ -1,4 +1,4 @@
-import { Grid, GridItem, Box } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import MovieGrid from "./components/MovieGrid";
 import GenresList from "./components/Genres";
@@ -9,6 +9,7 @@ import MoviesSelected from "./components/MoviesSelected";
 import { Movie } from "./hooks/useMovie";
 import SectionHeading from "./components/SectionHeading";
 import Form from "./components/Form";
+import GridItemContainer from "./components/GridItemContainer";
 
 function App() {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
@@ -21,6 +22,12 @@ function App() {
     },
     [selectedGenre, selectedOrderBy]
   );
+
+  const removeMovie = (movie_id: number) => {
+    setSelectedMovies(
+      selectedMovies.filter((movie) => movie.movie_id != movie_id)
+    );
+  };
 
   return (
     <Grid
@@ -43,28 +50,31 @@ function App() {
         />
       </GridItem>
 
-      <GridItem area="form" paddingLeft={5}>
-        <SectionHeading text="Let me know about you" />
-        <Form />
-      </GridItem>
+      <GridItemContainer>
+        <GridItem area="form">
+          <SectionHeading text="Let me know about you" />
+          <Form />
+        </GridItem>
+      </GridItemContainer>
 
       {selectedMovies.length != 0 && (
-        <GridItem area="selection">
-          <Box paddingLeft="10px">
+        <GridItemContainer>
+          <GridItem area="selection">
             <SectionHeading text="Which movies selected" />
-            <MoviesSelected selectedMovies={selectedMovies} />
-          </Box>
-        </GridItem>
+            <MoviesSelected
+              selectedMovies={selectedMovies}
+              removeMovie={removeMovie}
+            />
+          </GridItem>
+        </GridItemContainer>
       )}
 
-      <GridItem area="main">
-        <Box paddingLeft="10px">
-          <SectionHeading text="Find and click movies you like" />
-          <SortSelector
-            OnOrderBy={setSelectedOrderBy}
-            Orderby={selectedOrderBy}
-          />
-        </Box>
+      <GridItem area="main" paddingLeft={"10px"}>
+        <SectionHeading text="Find and click movies you like" />
+        <SortSelector
+          OnOrderBy={setSelectedOrderBy}
+          Orderby={selectedOrderBy}
+        />
 
         <MovieGrid
           selectedGenre={selectedGenre}
