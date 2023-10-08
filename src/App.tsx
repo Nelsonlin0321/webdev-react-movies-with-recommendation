@@ -81,9 +81,12 @@ function App() {
           movies={movies}
           error={error}
           isLoading={isLoading}
-          addMovie={(movie: Movie) =>
-            setSelectedMovies([...selectedMovies, movie])
-          }
+          addMovie={(movie: Movie) => {
+            const movie_ids = selectedMovies.map((movie) => movie.movie_id);
+            if (!movie_ids.includes(movie.movie_id)) {
+              setSelectedMovies([...selectedMovies, movie]);
+            }
+          }}
         />
       </GridItem>
     </Grid>
