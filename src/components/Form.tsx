@@ -12,23 +12,22 @@ import {
   Radio,
   RadioGroup,
 } from "@chakra-ui/react";
-import { FormEvent } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 
 const Form = () => {
-  const handelSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    console.log("Submitted!");
-  };
+  const { handleSubmit, register } = useForm();
+
+  const submitHandler = (data: FieldValues) => console.log(data);
 
   return (
     <Box paddingBottom={4}>
-      <form onSubmit={handelSubmit}>
+      <form onSubmit={handleSubmit(submitHandler)}>
         <FormControl>
           <HStack alignItems={"end"}>
             <Box paddingRight={"10px"}>
-              <FormLabel>Age</FormLabel>
+              <FormLabel htmlFor="age">Age</FormLabel>
               <NumberInput defaultValue={25} min={18} max={60}>
-                <NumberInputField />
+                <NumberInputField {...register("age")} />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
@@ -36,11 +35,17 @@ const Form = () => {
               </NumberInput>
             </Box>
             <Box>
-              <FormLabel as="legend">Gender</FormLabel>
+              <FormLabel as="legend" htmlFor="gender">
+                Gender
+              </FormLabel>
               <RadioGroup defaultValue="M">
-                <HStack spacing="24px">
-                  <Radio value="M">Male</Radio>
-                  <Radio value="F">Female</Radio>
+                <HStack spacing="20px">
+                  <Radio value="M" {...register("gender")}>
+                    Male
+                  </Radio>
+                  <Radio value="F" {...register("gender")}>
+                    Female
+                  </Radio>
                 </HStack>
               </RadioGroup>
             </Box>
