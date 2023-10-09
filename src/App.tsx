@@ -129,7 +129,7 @@ function App() {
       )}
 
       <GridItem area="main" paddingLeft={"10px"}>
-        <SectionHeading text="Find and click movies you like" />
+        <SectionHeading text="Find and click movies you watched" />
         <SortSelector
           OnOrderBy={setSelectedOrderBy}
           Orderby={selectedOrderBy}

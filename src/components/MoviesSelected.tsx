@@ -14,7 +14,6 @@ const MoviesSelected = ({ selectedMovies, removeMovie }: Props) => {
       <SimpleGrid
         columns={{ base: 2, sm: 4, md: 5, lg: 8, xl: 10 }}
         spacing={2}
-        padding="10px"
       >
         {selectedMovies.map((movie) => (
           <MovieCard
