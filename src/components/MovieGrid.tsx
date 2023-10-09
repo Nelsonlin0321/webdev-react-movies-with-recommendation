@@ -30,7 +30,7 @@ const MovieGrid = ({
       {error && <Text>{error}</Text>}
 
       <SimpleGrid
-        columns={{ base: 2, sm: 4, md: 5, lg: 8, xl: 10 }}
+        columns={{ base: 2, sm: 3, md: 5, lg: 8, xl: 10 }}
         spacing={2}
         paddingTop="10px"
       >

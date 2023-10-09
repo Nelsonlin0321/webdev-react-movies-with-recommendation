@@ -11,6 +11,7 @@ import {
   NumberInputStepper,
   Radio,
   RadioGroup,
+  Wrap,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Movie } from "../hooks/useMovie";
@@ -68,7 +69,7 @@ const Form = ({
     <Box paddingBottom={4}>
       <form onSubmit={handleSubmit(submitHandler)}>
         <FormControl>
-          <HStack alignItems={"end"}>
+          <Wrap align="center">
             <Box paddingRight={"10px"}>
               <FormLabel htmlFor="user_age">Age</FormLabel>
               <NumberInput defaultValue={25} min={18} max={60}>
@@ -94,7 +95,7 @@ const Form = ({
                 </HStack>
               </RadioGroup>
             </Box>
-            <HStack paddingLeft={"5px"}>
+            <Wrap paddingLeft={"5px"}>
               <Button colorScheme="facebook" type="submit">
                 Recommend
               </Button>
@@ -105,8 +106,8 @@ const Form = ({
               >
                 Clear Selection
               </Button>
-            </HStack>
-          </HStack>
+            </Wrap>
+          </Wrap>
         </FormControl>
       </form>
     </Box>

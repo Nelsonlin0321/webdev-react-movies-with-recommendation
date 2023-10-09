@@ -26,8 +26,8 @@ const MovieCard = ({ movie, addMovie, imageClassName, closeButton }: Props) => {
   return (
     <MovieCardContainer>
       <Card
-        boxShadow="md"
-        rounded="md"
+        // boxShadow="md"
+        // rounded="md"
         marginBottom={"5px"}
         className={imageClassName}
         onClick={() => addMovie?.(movie)}

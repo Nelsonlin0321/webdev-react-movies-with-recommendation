@@ -3,6 +3,7 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Box,
   Grid,
   GridItem,
   HStack,
@@ -85,7 +86,7 @@ function App() {
             <SectionHeading text="Movies recommended" />
 
             {recommendingError && (
-              <Alert status="error">
+              <Alert status="error" padding={"10px"}>
                 <AlertIcon />
                 <AlertTitle>Error:</AlertTitle>
                 <AlertDescription>{recommendingError}</AlertDescription>
@@ -94,17 +95,18 @@ function App() {
 
             {isRecommending ? (
               <HStack>
-                <Spinner
-                  thickness="3px"
-                  speed="0.65s"
-                  emptyColor="gray.200"
-                  color="blue.500"
-                  size="xl"
-                />
-
-                <Text>
-                  It's recommending movies for you ! Please wait a moment.
-                </Text>
+                <Alert status="info">
+                  <Spinner
+                    thickness="3px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="lg"
+                  />
+                  <Text paddingLeft="5px">
+                    It's Recommending. Please wait a few seconds!
+                  </Text>
+                </Alert>
               </HStack>
             ) : (
               <MoviesRecommended recommendedMovies={recommendedMovies} />
