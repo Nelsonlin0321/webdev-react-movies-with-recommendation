@@ -72,6 +72,7 @@ function App() {
             setRecommendedMovies={setRecommendedMovies}
             setIsRecommending={setIsRecommending}
             setRecommendingError={setRecommendingError}
+            cancelSection={() => setSelectedMovies([])}
           />
         </GridItem>
       </GridItemContainer>

@@ -22,6 +22,7 @@ interface Props {
   setRecommendedMovies: (movies: Movie[]) => void;
   setIsRecommending: (isRecommending: boolean) => void;
   setRecommendingError: (error: string) => void;
+  cancelSection: (movies: Movie[]) => void;
 }
 
 const Form = ({
@@ -29,6 +30,7 @@ const Form = ({
   setRecommendedMovies,
   setIsRecommending,
   setRecommendingError,
+  cancelSection,
 }: Props) => {
   const { handleSubmit, register } = useForm();
 
@@ -86,11 +88,18 @@ const Form = ({
                 </HStack>
               </RadioGroup>
             </Box>
-            <Box paddingRight={"10px"}>
+            <HStack paddingLeft={"5px"}>
               <Button colorScheme="facebook" type="submit">
                 Recommend
               </Button>
-            </Box>
+              <Button
+                colorScheme="facebook"
+                variant="outline"
+                onClick={() => cancelSection([])}
+              >
+                Clear Selection
+              </Button>
+            </HStack>
           </HStack>
         </FormControl>
       </form>
