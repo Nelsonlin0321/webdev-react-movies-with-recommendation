@@ -43,7 +43,7 @@ const Form = ({
       rating_threshold: 4.9,
     };
     apiRecommender
-      .post("/recommend", params)
+      .post<Movie[]>("/recommend", params)
       .then((res) => {
         setRecommendedMovies(res.data);
         setIsRecommending(false);

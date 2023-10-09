@@ -76,7 +76,9 @@ function App() {
         </GridItem>
       </GridItemContainer>
 
-      {(recommendedMovies.length != 0 || isRecommending) && (
+      {(recommendedMovies.length != 0 ||
+        isRecommending ||
+        recommendingError) && (
         <GridItemContainer>
           <GridItem area="recommendation">
             <SectionHeading text="Movies recommended" />
@@ -94,20 +96,20 @@ function App() {
                 <Text>
                   It's recommending movies for you ! Please wait a moment.
                 </Text>
-
-                {recommendingError && (
-                  <Alert status="error">
-                    <AlertIcon />
-                    <AlertTitle>
-                      There was an error recommending movies for you with below
-                      error:
-                    </AlertTitle>
-                    <AlertDescription>{recommendingError}</AlertDescription>
-                  </Alert>
-                )}
               </HStack>
             ) : (
               <MoviesRecommended recommendedMovies={recommendedMovies} />
+            )}
+
+            {recommendingError && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle>
+                  There was an error with recommendation system with below
+                  error:
+                </AlertTitle>
+                <AlertDescription>{recommendingError}</AlertDescription>
+              </Alert>
             )}
           </GridItem>
         </GridItemContainer>

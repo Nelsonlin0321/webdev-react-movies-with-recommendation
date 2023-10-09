@@ -12,7 +12,6 @@ const MovieRecommended = ({ recommendedMovies }: Props) => {
       <SimpleGrid
         columns={{ base: 2, sm: 4, md: 5, lg: 8, xl: 10 }}
         spacing={2}
-        padding="10px"
       >
         {recommendedMovies.map((movie) => (
           <MovieCard key={movie.movie_id} movie={movie} />
