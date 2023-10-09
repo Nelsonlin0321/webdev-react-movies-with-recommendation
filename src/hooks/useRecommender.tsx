@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient from "../components/services/api-client";
+import apiRecommender from "../components/services/api-recommender";
 import { AxiosRequestConfig, CanceledError } from "axios";
 
 export interface Movie {
@@ -7,6 +7,7 @@ export interface Movie {
   release_year: number;
   image_url: string;
   genres: string[];
+  genre: string;
   title: string;
   rating: number;
 }
@@ -16,32 +17,29 @@ interface FetchMoviesResponse {
   results: Movie[];
 }
 
-
-const useMovie = (requestConfig?: AxiosRequestConfig,deps?:any[]) => {
-
-
+const useMovie = (requestConfig?: AxiosRequestConfig, deps?: any[]) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-    useEffect(() => {
-      const controller = new AbortController();
-      setLoading(true);
-    apiClient
-      .get<FetchMoviesResponse>("/movies/",{signal:controller.signal,...requestConfig})
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    apiRecommender
+      .post("/recommend", {})
       .then((res) => {
         setMovies(res.data.results);
         setLoading(false);
       })
-        .catch((err) => {
-          if (!(err instanceof CanceledError)) {
-            setError(err.message);
-            setLoading(false);
-          };
+      .catch((err) => {
+        if (!(err instanceof CanceledError)) {
+          setError(err.message);
+          setLoading(false);
+        }
       });
   }, deps);
-    
-    return {movies,error,isLoading,setLoading}
-}
 
-export default useMovie
+  return { movies, error, isLoading, setLoading };
+};
+
+export default useMovie;

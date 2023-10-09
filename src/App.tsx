@@ -10,11 +10,13 @@ import { Movie } from "./hooks/useMovie";
 import SectionHeading from "./components/SectionHeading";
 import Form from "./components/Form";
 import GridItemContainer from "./components/GridItemContainer";
+import MoviesRecommended from "./components/MoviesRecommended";
 
 function App() {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedOrderBy, setSelectedOrderBy] = useState<string>("");
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
+  const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([]);
 
   const { movies, error, isLoading } = useMovie(
     {
@@ -53,14 +55,26 @@ function App() {
       <GridItemContainer>
         <GridItem area="form">
           <SectionHeading text="Let me know about you" />
-          <Form selectedMovies={selectedMovies} />
+          <Form
+            selectedMovies={selectedMovies}
+            setRecommendedMovies={setRecommendedMovies}
+          />
         </GridItem>
       </GridItemContainer>
+
+      {recommendedMovies.length != 0 && (
+        <GridItemContainer>
+          <GridItem area="recommendation">
+            <SectionHeading text="Movies recommended" />
+            <MoviesRecommended recommendedMovies={recommendedMovies} />
+          </GridItem>
+        </GridItemContainer>
+      )}
 
       {selectedMovies.length != 0 && (
         <GridItemContainer>
           <GridItem area="selection">
-            <SectionHeading text="Which movies selected" />
+            <SectionHeading text="Movies selected" />
             <MoviesSelected
               selectedMovies={selectedMovies}
               removeMovie={removeMovie}
