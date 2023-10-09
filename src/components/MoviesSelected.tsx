@@ -1,7 +1,7 @@
-import { SimpleGrid } from "@chakra-ui/react";
 import MovieCard from "./MovieCard";
 import { Movie } from "../hooks/useMovie";
 import MovieCloseButton from "./MovieCloseButton";
+import MovieGridContainer from "./MovieGridContainer";
 
 interface Props {
   selectedMovies: Movie[];
@@ -11,10 +11,7 @@ interface Props {
 const MoviesSelected = ({ selectedMovies, removeMovie }: Props) => {
   return (
     <>
-      <SimpleGrid
-        columns={{ base: 2, sm: 4, md: 5, lg: 8, xl: 10 }}
-        spacing={2}
-      >
+      <MovieGridContainer>
         {selectedMovies.map((movie) => (
           <MovieCard
             addMovie={() => {}}
@@ -28,7 +25,7 @@ const MoviesSelected = ({ selectedMovies, removeMovie }: Props) => {
             }
           />
         ))}
-      </SimpleGrid>
+      </MovieGridContainer>
     </>
   );
 };

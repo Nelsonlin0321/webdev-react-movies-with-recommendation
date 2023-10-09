@@ -10,8 +10,6 @@ const NavBar = () => {
         backgroundImage="linear-gradient(to left, #553c9a, #b393d3)"
         color="transparent"
         backgroundClip="text"
-        size="2xl"
-        as="b"
       >
         Movielens Interactive Recommendation System
       </Heading>

@@ -1,7 +1,8 @@
-import { SimpleGrid, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCard from "./MovieCard";
 import { Movie } from "../hooks/useMovie";
+import MovieGridContainer from "./MovieGridContainer";
 interface Props {
   selectedGenre: string;
   movies: Movie[];
@@ -29,11 +30,7 @@ const MovieGrid = ({
     <>
       {error && <Text>{error}</Text>}
 
-      <SimpleGrid
-        columns={{ base: 2, sm: 3, md: 5, lg: 8, xl: 10 }}
-        spacing={2}
-        paddingTop="10px"
-      >
+      <MovieGridContainer>
         {isLoading &&
           skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
 
@@ -46,7 +43,7 @@ const MovieGrid = ({
               imageClassName="image-card"
             />
           ))}
-      </SimpleGrid>
+      </MovieGridContainer>
     </>
   );
 };
