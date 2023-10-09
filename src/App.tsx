@@ -1,4 +1,14 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Grid,
+  GridItem,
+  HStack,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import MovieGrid from "./components/MovieGrid";
 import GenresList from "./components/Genres";
@@ -17,6 +27,8 @@ function App() {
   const [selectedOrderBy, setSelectedOrderBy] = useState<string>("");
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([]);
+  const [isRecommending, setIsRecommending] = useState(false);
+  const [recommendingError, setRecommendingError] = useState("");
 
   const { movies, error, isLoading } = useMovie(
     {
@@ -58,15 +70,45 @@ function App() {
           <Form
             selectedMovies={selectedMovies}
             setRecommendedMovies={setRecommendedMovies}
+            setIsRecommending={setIsRecommending}
+            setRecommendingError={setRecommendingError}
           />
         </GridItem>
       </GridItemContainer>
 
-      {recommendedMovies.length != 0 && (
+      {(recommendedMovies.length != 0 || isRecommending) && (
         <GridItemContainer>
           <GridItem area="recommendation">
             <SectionHeading text="Movies recommended" />
-            <MoviesRecommended recommendedMovies={recommendedMovies} />
+
+            {isRecommending ? (
+              <HStack>
+                <Spinner
+                  thickness="3px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="blue.500"
+                  size="xl"
+                />
+
+                <Text>
+                  It's recommending movies for you ! Please wait a moment.
+                </Text>
+
+                {recommendingError && (
+                  <Alert status="error">
+                    <AlertIcon />
+                    <AlertTitle>
+                      There was an error recommending movies for you with below
+                      error:
+                    </AlertTitle>
+                    <AlertDescription>{recommendingError}</AlertDescription>
+                  </Alert>
+                )}
+              </HStack>
+            ) : (
+              <MoviesRecommended recommendedMovies={recommendedMovies} />
+            )}
           </GridItem>
         </GridItemContainer>
       )}

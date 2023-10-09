@@ -15,32 +15,44 @@ import {
 import { FieldValues, useForm } from "react-hook-form";
 import { Movie } from "../hooks/useMovie";
 import apiRecommender from "./services/api-recommender";
+import { CanceledError } from "axios";
 
 interface Props {
   selectedMovies: Movie[];
   setRecommendedMovies: (movies: Movie[]) => void;
+  setIsRecommending: (isRecommending: boolean) => void;
+  setRecommendingError: (error: string) => void;
 }
 
-const Form = ({ selectedMovies, setRecommendedMovies }: Props) => {
+const Form = ({
+  selectedMovies,
+  setRecommendedMovies,
+  setIsRecommending,
+  setRecommendingError,
+}: Props) => {
   const { handleSubmit, register } = useForm();
 
   const submitHandler = (data: FieldValues) => {
+    setIsRecommending(true);
     const movie_ids = selectedMovies.map((movie) => movie.movie_id);
-    console.log({
+    const params = {
       user_age: parseInt(data.user_age),
       sex: data.sex,
       topk: 10,
       movie_ids: movie_ids,
       rating_threshold: 4.9,
-    });
+    };
     apiRecommender
-      .post("/recommend", {
-        ...data,
-        topk: 10,
-        movie_ids: movie_ids,
-      })
+      .post("/recommend", params)
       .then((res) => {
         setRecommendedMovies(res.data);
+        setIsRecommending(false);
+      })
+      .catch((err) => {
+        if (!(err instanceof CanceledError)) {
+          setRecommendingError(err.message);
+          setIsRecommending(false);
+        }
       });
   };
 
