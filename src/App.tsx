@@ -84,6 +84,14 @@ function App() {
           <GridItem area="recommendation">
             <SectionHeading text="Movies recommended" />
 
+            {recommendingError && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle>Error:</AlertTitle>
+                <AlertDescription>{recommendingError}</AlertDescription>
+              </Alert>
+            )}
+
             {isRecommending ? (
               <HStack>
                 <Spinner
@@ -100,17 +108,6 @@ function App() {
               </HStack>
             ) : (
               <MoviesRecommended recommendedMovies={recommendedMovies} />
-            )}
-
-            {recommendingError && (
-              <Alert status="error">
-                <AlertIcon />
-                <AlertTitle>
-                  There was an error with recommendation system with below
-                  error:
-                </AlertTitle>
-                <AlertDescription>{recommendingError}</AlertDescription>
-              </Alert>
             )}
           </GridItem>
         </GridItemContainer>
@@ -129,7 +126,7 @@ function App() {
       )}
 
       <GridItem area="main" paddingLeft={"10px"}>
-        <SectionHeading text="Find and click movies you watched" />
+        <SectionHeading text="Find and click movies you've watched" />
         <SortSelector
           OnOrderBy={setSelectedOrderBy}
           Orderby={selectedOrderBy}

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   HStack,
   NumberDecrementStepper,
@@ -35,8 +36,13 @@ const Form = ({
   const { handleSubmit, register } = useForm();
 
   const submitHandler = (data: FieldValues) => {
-    setIsRecommending(true);
     const movie_ids = selectedMovies.map((movie) => movie.movie_id);
+
+    if (movie_ids.length == 0) {
+      setRecommendingError("please select at least one movie you've watched!");
+      return;
+    }
+    setIsRecommending(true);
     const params = {
       user_age: parseInt(data.user_age),
       sex: data.sex,
@@ -44,6 +50,7 @@ const Form = ({
       movie_ids: movie_ids,
       rating_threshold: 4.9,
     };
+    setRecommendingError("");
     apiRecommender
       .post<Movie[]>("/recommend", params)
       .then((res) => {
