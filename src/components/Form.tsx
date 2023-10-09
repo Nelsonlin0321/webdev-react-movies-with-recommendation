@@ -43,6 +43,7 @@ const Form = ({
       return;
     }
     setIsRecommending(true);
+    setRecommendedMovies([]);
     const params = {
       user_age: parseInt(data.user_age),
       sex: data.sex,

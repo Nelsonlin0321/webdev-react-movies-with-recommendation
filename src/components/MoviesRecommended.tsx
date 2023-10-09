@@ -1,14 +1,25 @@
 import MovieCard from "./MovieCard";
 import { Movie } from "../hooks/useMovie";
 import MovieGridContainer from "./MovieGridContainer";
+import MovieCardSkeleton from "./MovieCardSkeleton";
 
 interface Props {
   recommendedMovies: Movie[];
+  isRecommending: boolean;
 }
 
-const MovieRecommended = ({ recommendedMovies }: Props) => {
+const MovieRecommended = ({ recommendedMovies, isRecommending }: Props) => {
+  const numberOfSkeleton = 10;
+  const skeletons = [];
+  for (let i = 0; i < numberOfSkeleton; i++) {
+    skeletons.push(i);
+  }
+
   return (
     <MovieGridContainer>
+      {isRecommending &&
+        skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
+
       {recommendedMovies.map((movie) => (
         <MovieCard key={movie.movie_id} movie={movie} />
       ))}
