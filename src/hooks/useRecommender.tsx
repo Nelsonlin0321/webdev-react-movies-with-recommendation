@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import apiRecommender from "../components/services/api-recommender";
-import { AxiosRequestConfig, CanceledError } from "axios";
+import { CanceledError } from "axios";
 
 export interface Movie {
   movie_id: number;
@@ -12,18 +12,12 @@ export interface Movie {
   rating: number;
 }
 
-interface FetchMoviesResponse {
-  count: number;
-  results: Movie[];
-}
-
-const useMovie = (requestConfig?: AxiosRequestConfig, deps?: any[]) => {
+const useMovie = (deps?: any[]) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    const controller = new AbortController();
     setLoading(true);
     apiRecommender
       .post("/recommend", {})

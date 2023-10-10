@@ -1,13 +1,4 @@
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CloseButton,
-  Heading,
-  Image,
-  Wrap,
-} from "@chakra-ui/react";
+import { Badge, Card, CardBody, Heading, Image, Wrap } from "@chakra-ui/react";
 import ReleaseYear from "./ReleaseYear";
 import StarRating from "./StarRating";
 import MovieCardContainer from "./MovieCardContainer";
