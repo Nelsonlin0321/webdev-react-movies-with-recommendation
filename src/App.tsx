@@ -6,6 +6,7 @@ import {
   Grid,
   GridItem,
   HStack,
+  Show,
   Spinner,
   Text,
 } from "@chakra-ui/react";
@@ -45,75 +46,85 @@ function App() {
 
   return (
     <Grid
-      templateAreas={`"nav nav" 
-                      "aside form"
-                      "aside recommendation"
-                      "aside selection"
-                      "aside main"
-                      `}
-      gridTemplateColumns={"120px 1fr"}
+      templateAreas={{
+        base: `"nav" 
+              "form"
+              "recommendation"
+              "selection"
+              "main"
+              `,
+
+        lg: `"nav nav" 
+            "aside form"
+            "aside recommendation"
+            "aside selection"
+            "aside main"
+            `,
+      }}
+      templateColumns={{
+        base: "1fr",
+        lg: "120px 1fr",
+      }}
     >
       <GridItem area="nav">
         <NavBar />
       </GridItem>
 
-      <GridItem area="aside" paddingLeft={5}>
-        <GenresList
-          onSelectGenre={setSelectedGenre}
-          selectedGenre={selectedGenre}
-        />
-      </GridItem>
-
-      <GridItemContainer>
-        <GridItem area="form">
-          <SectionHeading text="Let me know about you" />
-          <Form
-            selectedMovies={selectedMovies}
-            setRecommendedMovies={setRecommendedMovies}
-            setIsRecommending={setIsRecommending}
-            setRecommendingError={setRecommendingError}
-            cancelSection={() => setSelectedMovies([])}
+      <Show above="lg">
+        <GridItem area="aside" paddingLeft={5}>
+          <GenresList
+            onSelectGenre={setSelectedGenre}
+            selectedGenre={selectedGenre}
           />
         </GridItem>
-      </GridItemContainer>
+      </Show>
+
+      <GridItem area="form" paddingLeft={"10px"}>
+        <SectionHeading text="Let me know about you" />
+        <Form
+          selectedMovies={selectedMovies}
+          setRecommendedMovies={setRecommendedMovies}
+          setIsRecommending={setIsRecommending}
+          setRecommendingError={setRecommendingError}
+          cancelSection={() => setSelectedMovies([])}
+        />
+      </GridItem>
 
       {(recommendedMovies.length != 0 ||
         isRecommending ||
         recommendingError) && (
-        <GridItemContainer>
-          <GridItem area="recommendation">
-            <SectionHeading text="Movies recommended" />
+        <GridItem area="recommendation">
+          <SectionHeading text="Movies recommended" />
 
-            {recommendingError && (
-              <Alert status="error" padding={"10px"}>
-                <AlertIcon />
-                <AlertTitle>Error:</AlertTitle>
-                <AlertDescription>{recommendingError}</AlertDescription>
+          {recommendingError && (
+            <Alert status="error" padding={"10px"}>
+              <AlertIcon />
+              <AlertTitle>Error:</AlertTitle>
+              <AlertDescription>{recommendingError}</AlertDescription>
+            </Alert>
+          )}
+
+          {isRecommending && (
+            <HStack>
+              <Alert status="info">
+                <Spinner
+                  thickness="3px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="blue.500"
+                  size="lg"
+                />
+                <Text paddingLeft="5px">
+                  It's Recommending. Please wait a few seconds!
+                </Text>
               </Alert>
-            )}
-
-            {isRecommending && (
-              <HStack>
-                <Alert status="info">
-                  <Spinner
-                    thickness="3px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="lg"
-                  />
-                  <Text paddingLeft="5px">
-                    It's Recommending. Please wait a few seconds!
-                  </Text>
-                </Alert>
-              </HStack>
-            )}
-            <MoviesRecommended
-              recommendedMovies={recommendedMovies}
-              isRecommending={isRecommending}
-            />
-          </GridItem>
-        </GridItemContainer>
+            </HStack>
+          )}
+          <MoviesRecommended
+            recommendedMovies={recommendedMovies}
+            isRecommending={isRecommending}
+          />
+        </GridItem>
       )}
 
       {selectedMovies.length != 0 && (
