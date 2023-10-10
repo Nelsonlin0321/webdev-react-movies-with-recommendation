@@ -79,7 +79,7 @@ function App() {
         </GridItem>
       </Show>
 
-      <GridItem area="form" paddingLeft={"10px"}>
+      <GridItem area="form" padding={"30px"}>
         <SectionHeading text="Let me know about you" />
         <Form
           selectedMovies={selectedMovies}

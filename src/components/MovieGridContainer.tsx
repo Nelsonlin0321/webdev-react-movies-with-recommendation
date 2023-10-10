@@ -8,8 +8,8 @@ interface Props {
 const MovieGridContainer = ({ children }: Props) => {
   return (
     <SimpleGrid
-      columns={{ base: 2, sm: 3, md: 5, lg: 8, xl: 10 }}
-      spacing={2}
+      columns={{ base: 4, sm: 5, md: 6, lg: 8, xl: 10 }}
+      spacing="4px"
       paddingTop="10px"
       paddingRight="5px"
     >

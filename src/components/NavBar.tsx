@@ -4,7 +4,7 @@ import ColorModeSwitch from "./ColorModeSwitch";
 
 const NavBar = () => {
   return (
-    <HStack justify="space-between" paddingLeft="30px" paddingBottom="30px">
+    <HStack justify="space-between" padding="30px">
       <GiHamburgerMenu size="40" />
       <Heading
         backgroundImage="linear-gradient(to left, #553c9a, #b393d3)"
