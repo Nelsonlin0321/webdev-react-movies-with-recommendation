@@ -16,9 +16,7 @@ The Interactive Movie Recommendation System follows a full stack machine learnin
 <img src = "images/architecture.png"> </img>
 
 
-## Major Components
-
-### (1) Orchestrated Training Pipeline:
+## (1) Orchestrated Training Pipeline:
 
 **Tech Stack**: Pytorch, Prefect, Mlflow, Transformer 
 
@@ -30,7 +28,7 @@ The training pipeline is responsible for training a behavior sequence transforme
 
 
 
-### (2) Deploy Model on AWS with FastAPI,Lambda and APIGateway 
+## (2) Model Deployment:
 
 **Tech Stack**: Pytorch,Lambda, APIGateway, FastAPI and Terraform
 **Github**: https://github.com/Nelsonlin0321/ml-bst-movielens1m-recommender-serving
@@ -39,13 +37,13 @@ The training pipeline is responsible for training a behavior sequence transforme
 The model trained in the training pipeline is deployed on AWS using FastAPI, Lambda, and APIGateway. This allows the model to be served as a serverless API. The API takes the users' demographic features and sequence of movie views as input and predicts the movies that users are most likely to like. The deployment process involves using Terraform to provision the necessary AWS resources and configuring the APIGateway to handle the API requests and we schedule to a EventBridge to regular invoke health check to avoid cold start.
 
 
-### (3) Backend Movies API with dynamodb with FastAPI,Lambda and APIGateway 
+## (3) Backend Movies APIs
 
 **Tech Stack**: Dynamodb, S3, CloutFront, Lambda, APIGateway, FastAPI and Terraform
 The system also includes a backend Movies API that is built using DynamoDB, FastAPI, Lambda, and APIGateway. The data from [Movielens dataset](http://files.grouplens.org/datasets/movielens/ml-1m.zip) is ingested into DynamoDB. And we crawl their cover images on Google and save them on S3.This API is responsible for serving the movie data and image urls. DynamoDB is used as the database to store the movie data, while CloudFront is used as the content delivery network to ensure fast and reliable access to the movie cover images. The APIGateway acts as the entry point for the API requests, and Lambda functions handle the request processing.
 
 
-### (4) React + Typescript Movie Recommendation Application 
+## (4) React + Typescript Movie Recommendation Application 
 
 **Tech Stack**: React, Typescript, Vite, Chakra UI, AWS Amplify, Route 53
 
