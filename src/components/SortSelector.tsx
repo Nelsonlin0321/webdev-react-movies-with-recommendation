@@ -17,12 +17,11 @@ const SortSelector = ({ OnOrderBy, Orderby }: Props) => {
       <MenuButton as={Button} rightIcon={<BsChevronDown />}>
         Order By: {Orderby ? SortFieldMap[Orderby] : "Release Year"}
       </MenuButton>
-
       <MenuList>
         <MenuItem onClick={() => OnOrderBy("release_year")}>
-          <MenuItem onClick={() => OnOrderBy("rating")}>Rating</MenuItem>
           Release Year
         </MenuItem>
+        <MenuItem onClick={() => OnOrderBy("rating")}>Rating</MenuItem>
       </MenuList>
     </Menu>
   );
