@@ -1,4 +1,4 @@
-# Interactive Movie Recommendation System Based on Behavior Sequence Transformer
+# Interactive Movie Recommendation System Based on Behavior Sequence Transformer Model
 
 ## Brief Introduction
 The Interactive Movie Recommendation System is a react application built with Typescript. It utilizes machine learning techniques to recommend movies to users based on their demographic information and movie viewing history. The system is designed to provide an interactive and personalized movie recommendation experience.
