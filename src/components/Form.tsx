@@ -48,7 +48,7 @@ const Form = ({
       sex: data.sex,
       topk: 10,
       movie_ids: movie_ids,
-      rating_threshold: 4.9,
+      rating_threshold: 4,
     };
     setRecommendingError("");
     apiRecommender
