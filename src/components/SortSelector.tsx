@@ -19,8 +19,8 @@ const SortSelector = ({ OnOrderBy, Orderby }: Props) => {
       </MenuButton>
 
       <MenuList>
-        <MenuItem onClick={() => OnOrderBy("rating")}>Rating</MenuItem>
         <MenuItem onClick={() => OnOrderBy("release_year")}>
+          <MenuItem onClick={() => OnOrderBy("rating")}>Rating</MenuItem>
           Release Year
         </MenuItem>
       </MenuList>

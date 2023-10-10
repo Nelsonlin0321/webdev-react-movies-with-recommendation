@@ -22,6 +22,7 @@ import SectionHeading from "./components/SectionHeading";
 import Form from "./components/Form";
 import GridItemContainer from "./components/GridItemContainer";
 import MoviesRecommended from "./components/MoviesRecommended";
+import GenresSelector from "./components/GenresSelector";
 
 function App() {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
@@ -141,10 +142,17 @@ function App() {
 
       <GridItem area="main" paddingLeft={"10px"}>
         <SectionHeading text="Find and click movies you've watched" />
-        <SortSelector
-          OnOrderBy={setSelectedOrderBy}
-          Orderby={selectedOrderBy}
-        />
+
+        <HStack>
+          <GenresSelector
+            selectedGenre={selectedGenre}
+            onSelectGenre={setSelectedGenre}
+          />
+          <SortSelector
+            OnOrderBy={setSelectedOrderBy}
+            Orderby={selectedOrderBy}
+          />
+        </HStack>
 
         <MovieGrid
           selectedGenre={selectedGenre}
