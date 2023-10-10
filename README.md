@@ -25,7 +25,7 @@ The Interactive Movie Recommendation System follows a full stack machine learnin
 <img src = "images/bst.png"> </img>
 
 The training pipeline is responsible for training a behavior sequence transformer model. This model is based on the algorithm proposed by Alibaba, which can be found in the paper link to [paper](https://arxiv.org/abs/1905.06874). The pipeline uses the 1M version of the Movielens dataset to train the recommendation model. It takes into account the users' basic demographic features and sequence of movie views. Note that during the inference stage, the system assumes that the users are anonymous and without any rating history, and therefore does not use them as features. A tutorial on how to implement the behavior sequence transformer model with all features can be found in this [GitHub](https://github.com/Nelsonlin0321/ml-behavior-sequence-transformer-for-movie-recommendation) repository.
-
+The training pipeline was orchestrated by [Prefect Cloud](https://www.prefect.io/cloud) but not deployed to cloud and it's trained by local computation.   
 
 
 ## (2) Model Deployment:
