@@ -92,7 +92,7 @@ function App() {
               </Alert>
             )}
 
-            {isRecommending ? (
+            {isRecommending && (
               <HStack>
                 <Alert status="info">
                   <Spinner
@@ -107,9 +107,11 @@ function App() {
                   </Text>
                 </Alert>
               </HStack>
-            ) : (
-              <MoviesRecommended recommendedMovies={recommendedMovies} />
             )}
+            <MoviesRecommended
+              recommendedMovies={recommendedMovies}
+              isRecommending={isRecommending}
+            />
           </GridItem>
         </GridItemContainer>
       )}

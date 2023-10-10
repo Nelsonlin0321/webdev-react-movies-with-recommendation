@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiRecommender from "../components/services/api-recommender";
+import apiRecommender from "../services/api-recommender";
 import { CanceledError } from "axios";
 
 export interface Movie {

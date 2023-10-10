@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Movie } from "../hooks/useMovie";
-import apiRecommender from "./services/api-recommender";
+import apiRecommender from "../services/api-recommender";
 import { CanceledError } from "axios";
 
 interface Props {
@@ -43,6 +43,7 @@ const Form = ({
       return;
     }
     setIsRecommending(true);
+    setRecommendedMovies([]);
     const params = {
       user_age: parseInt(data.user_age),
       sex: data.sex,

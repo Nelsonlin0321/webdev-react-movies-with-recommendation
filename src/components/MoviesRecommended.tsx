@@ -1,18 +1,29 @@
-import { SimpleGrid } from "@chakra-ui/react";
 import MovieCard from "./MovieCard";
 import { Movie } from "../hooks/useMovie";
+import MovieGridContainer from "./MovieGridContainer";
+import MovieCardSkeleton from "./MovieCardSkeleton";
 
 interface Props {
   recommendedMovies: Movie[];
+  isRecommending: boolean;
 }
 
-const MovieRecommended = ({ recommendedMovies }: Props) => {
+const MovieRecommended = ({ recommendedMovies, isRecommending }: Props) => {
+  const numberOfSkeleton = 10;
+  const skeletons = [];
+  for (let i = 0; i < numberOfSkeleton; i++) {
+    skeletons.push(i);
+  }
+
   return (
-    <SimpleGrid columns={{ base: 2, sm: 4, md: 5, lg: 8, xl: 10 }} spacing={2}>
+    <MovieGridContainer>
+      {isRecommending &&
+        skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
+
       {recommendedMovies.map((movie) => (
         <MovieCard key={movie.movie_id} movie={movie} />
       ))}
-    </SimpleGrid>
+    </MovieGridContainer>
   );
 };
 
