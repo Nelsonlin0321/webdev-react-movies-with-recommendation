@@ -4,11 +4,10 @@ import ColorModeSwitch from "./ColorModeSwitch";
 
 const NavBar = () => {
   return (
-    <HStack justify="space-between" padding="30px">
+    <HStack justify="space-between" padding="30px" paddingBottom="0px">
       <GiHamburgerMenu size="40" />
       <Heading
-        backgroundImage="linear-gradient(to left, #553c9a, #b393d3)"
-        color="transparent"
+        backgroundImage="linear-gradient(to bottom, #553c9a, #b393d3)"
         backgroundClip="text"
       >
         Movielens Interactive Recommendation System

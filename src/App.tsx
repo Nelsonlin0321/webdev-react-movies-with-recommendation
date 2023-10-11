@@ -94,38 +94,40 @@ function App() {
       {(recommendedMovies.length != 0 ||
         isRecommending ||
         recommendingError) && (
-        <GridItem area="recommendation">
-          <SectionHeading text="Movies recommended" />
+        <GridItemContainer>
+          <GridItem area="recommendation">
+            <SectionHeading text="Movies recommended" />
 
-          {recommendingError && (
-            <Alert status="error" padding={"10px"}>
-              <AlertIcon />
-              <AlertTitle>Error:</AlertTitle>
-              <AlertDescription>{recommendingError}</AlertDescription>
-            </Alert>
-          )}
-
-          {isRecommending && (
-            <HStack>
-              <Alert status="info">
-                <Spinner
-                  thickness="3px"
-                  speed="0.65s"
-                  emptyColor="gray.200"
-                  color="blue.500"
-                  size="lg"
-                />
-                <Text paddingLeft="5px">
-                  It's Recommending. Please wait a few seconds!
-                </Text>
+            {recommendingError && (
+              <Alert status="error" padding={"10px"}>
+                <AlertIcon />
+                <AlertTitle>Error:</AlertTitle>
+                <AlertDescription>{recommendingError}</AlertDescription>
               </Alert>
-            </HStack>
-          )}
-          <MoviesRecommended
-            recommendedMovies={recommendedMovies}
-            isRecommending={isRecommending}
-          />
-        </GridItem>
+            )}
+
+            {isRecommending && (
+              <HStack>
+                <Alert status="info">
+                  <Spinner
+                    thickness="3px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="lg"
+                  />
+                  <Text paddingLeft="5px">
+                    It's Recommending. Please wait a few seconds!
+                  </Text>
+                </Alert>
+              </HStack>
+            )}
+            <MoviesRecommended
+              recommendedMovies={recommendedMovies}
+              isRecommending={isRecommending}
+            />
+          </GridItem>
+        </GridItemContainer>
       )}
 
       {selectedMovies.length != 0 && (
@@ -139,34 +141,35 @@ function App() {
           </GridItem>
         </GridItemContainer>
       )}
+      <GridItemContainer>
+        <GridItem area="main">
+          <SectionHeading text="Find and click movies you've watched" />
 
-      <GridItem area="main" paddingLeft={"10px"}>
-        <SectionHeading text="Find and click movies you've watched" />
+          <HStack>
+            <GenresSelector
+              selectedGenre={selectedGenre}
+              onSelectGenre={setSelectedGenre}
+            />
+            <SortSelector
+              OnOrderBy={setSelectedOrderBy}
+              Orderby={selectedOrderBy}
+            />
+          </HStack>
 
-        <HStack>
-          <GenresSelector
+          <MovieGrid
             selectedGenre={selectedGenre}
-            onSelectGenre={setSelectedGenre}
+            movies={movies}
+            error={error}
+            isLoading={isLoading}
+            addMovie={(movie: Movie) => {
+              const movie_ids = selectedMovies.map((movie) => movie.movie_id);
+              if (!movie_ids.includes(movie.movie_id)) {
+                setSelectedMovies([...selectedMovies, movie]);
+              }
+            }}
           />
-          <SortSelector
-            OnOrderBy={setSelectedOrderBy}
-            Orderby={selectedOrderBy}
-          />
-        </HStack>
-
-        <MovieGrid
-          selectedGenre={selectedGenre}
-          movies={movies}
-          error={error}
-          isLoading={isLoading}
-          addMovie={(movie: Movie) => {
-            const movie_ids = selectedMovies.map((movie) => movie.movie_id);
-            if (!movie_ids.includes(movie.movie_id)) {
-              setSelectedMovies([...selectedMovies, movie]);
-            }
-          }}
-        />
-      </GridItem>
+        </GridItem>
+      </GridItemContainer>
     </Grid>
   );
 }

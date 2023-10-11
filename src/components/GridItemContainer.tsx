@@ -6,7 +6,7 @@ interface Props {
 }
 
 const GridItemContainer = ({ children }: Props) => {
-  return <Box paddingLeft={"10px"}>{children}</Box>;
+  return <Box padding="10px">{children}</Box>;
 };
 
 export default GridItemContainer;
