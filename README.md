@@ -9,6 +9,13 @@ A React with Typescript application to
 <img src = "images/frontend.png"> </img>
 
 
+## Run the React Application At Local
+
+```sh
+npm install
+npm run dev
+```
+
 ## Full Stack Machine Learning Serverless Architecture
 
 The Interactive Movie Recommendation System follows a full stack machine learning serverless and microservices architecture. The architecture consists of several major components that work together to provide a seamless movie recommendation experience.
