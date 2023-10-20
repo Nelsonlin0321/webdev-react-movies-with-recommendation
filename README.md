@@ -3,7 +3,6 @@
 ## Brief Introduction
 The Interactive Movie Recommendation System is a react application built with Typescript. It utilizes machine learning techniques to recommend movies to users based on their demographic information and movie viewing history. The system is designed to provide an interactive and personalized movie recommendation experience.
 
-A react with Typescript application to 
 
 ## React Frontend Preview: [nelsonds.com](https://nelsonds.com)
 <img src = "images/frontend.png"> </img>
