@@ -5,9 +5,9 @@ The Interactive Movie Recommendation System is a react application built with Ty
 
 A react with Typescript application to 
 
-## React Frontend Preview
+## React Frontend Preview: [nelsonds.com](https://nelsonds.com)
 <img src = "images/frontend.png"> </img>
-
+[nelsonds.com](https://nelsonds.com).
 
 ## Run the React Application At Local
 
