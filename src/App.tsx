@@ -23,20 +23,30 @@ import Form from "./components/Form";
 import GridItemContainer from "./components/GridItemContainer";
 import MoviesRecommended from "./components/MoviesRecommended";
 import GenresSelector from "./components/GenresSelector";
+import SearchInput from "./components/SearchInput";
 
 function App() {
+  const defaultEndPoint = "/movies/";
+  const searchEndPoint = "/movies/search";
+  const [dataEndpoint, setDataEndpoint] = useState<string>(defaultEndPoint);
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedOrderBy, setSelectedOrderBy] = useState<string>("");
+  const [searchText, setSearchText] = useState<string | undefined>(undefined);
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([]);
   const [isRecommending, setIsRecommending] = useState(false);
   const [recommendingError, setRecommendingError] = useState("");
 
   const { movies, error, isLoading } = useMovie(
+    dataEndpoint,
     {
-      params: { genre: selectedGenre, order_by: selectedOrderBy },
+      params: {
+        genre: selectedGenre,
+        order_by: selectedOrderBy,
+        q: searchText,
+      },
     },
-    [selectedGenre, selectedOrderBy]
+    [selectedGenre, selectedOrderBy, searchText, dataEndpoint]
   );
 
   const removeMovie = (movie_id: number) => {
@@ -74,7 +84,10 @@ function App() {
       <Show above="lg">
         <GridItem area="aside" paddingLeft={5}>
           <GenresList
-            onSelectGenre={setSelectedGenre}
+            onSelectGenre={(genre) => {
+              setDataEndpoint(defaultEndPoint);
+              setSelectedGenre(genre);
+            }}
             selectedGenre={selectedGenre}
           />
         </GridItem>
@@ -146,13 +159,27 @@ function App() {
           <SectionHeading text="Find and click movies you've watched" />
 
           <HStack>
+            <SearchInput
+              onSearch={(q) => {
+                if (q) {
+                  setDataEndpoint(searchEndPoint);
+                  setSearchText(q);
+                }
+              }}
+            />
             <GenresSelector
               selectedGenre={selectedGenre}
-              onSelectGenre={setSelectedGenre}
+              onSelectGenre={(genre) => {
+                setDataEndpoint(defaultEndPoint);
+                setSelectedGenre(genre);
+              }}
             />
             <SortSelector
-              OnOrderBy={setSelectedOrderBy}
               Orderby={selectedOrderBy}
+              OnOrderBy={(orderby) => {
+                setDataEndpoint(defaultEndPoint);
+                setSelectedOrderBy(orderby);
+              }}
             />
           </HStack>
 

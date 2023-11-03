@@ -17,7 +17,7 @@ interface FetchMoviesResponse {
 }
 
 
-const useMovie = (requestConfig?: AxiosRequestConfig,deps?:any[]) => {
+const useMovie = (endpoint:string,requestConfig?: AxiosRequestConfig,deps?:any[]) => {
 
 
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -28,7 +28,7 @@ const useMovie = (requestConfig?: AxiosRequestConfig,deps?:any[]) => {
       const controller = new AbortController();
       setLoading(true);
     apiClient
-      .get<FetchMoviesResponse>("/movies/",{signal:controller.signal,...requestConfig})
+      .get<FetchMoviesResponse>(endpoint,{signal:controller.signal,...requestConfig})
       .then((res) => {
         setMovies(res.data.results);
         setLoading(false);
