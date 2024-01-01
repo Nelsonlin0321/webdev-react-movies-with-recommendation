@@ -1,4 +1,9 @@
-import { Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+} from "@chakra-ui/react";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCard from "./MovieCard";
 import { Movie } from "../hooks/useMovie";
@@ -28,7 +33,13 @@ const MovieGrid = ({
 
   return (
     <>
-      {error && <Text>{error}</Text>}
+      {error && (
+        <Alert status="error" marginTop={"5"}>
+          <AlertIcon />
+          <AlertTitle>Error:</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
 
       <MovieGridContainer>
         {isLoading &&

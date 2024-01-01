@@ -38,7 +38,7 @@ const useMovie = (requestConfig?: AxiosRequestConfig, deps?: any[]) => {
           const searchResult = await apiClient
             .get<FetchMoviesResponse>("/movies/search", {
               signal: controller.signal,
-              params: { q: requestConfig.params.q, limit: 100 },
+              params: { q: requestConfig.params.q, limit: 1000 },
             })
             .then((res) => res.data.results);
 
