@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
-import { AxiosRequestConfig, CanceledError } from "axios";
+import { AxiosError, AxiosRequestConfig, CanceledError } from "axios";
 
 export interface Movie {
   movie_id: number;
@@ -16,32 +16,54 @@ interface FetchMoviesResponse {
   results: Movie[];
 }
 
-
-const useMovie = (endpoint:string,requestConfig?: AxiosRequestConfig,deps?:any[]) => {
-
-
+const useMovie = (requestConfig?: AxiosRequestConfig, deps?: any[]) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-    useEffect(() => {
-      const controller = new AbortController();
-      setLoading(true);
-    apiClient
-      .get<FetchMoviesResponse>(endpoint,{signal:controller.signal,...requestConfig})
-      .then((res) => {
-        setMovies(res.data.results);
-        setLoading(false);
-      })
-        .catch((err) => {
-          if (!(err instanceof CanceledError)) {
-            setError(err.message);
-            setLoading(false);
-          };
-      });
-  }, deps);
-    
-    return {movies,error,isLoading,setLoading}
-}
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
 
-export default useMovie
+    const fetchQueryMovie = async (requestConfig?: AxiosRequestConfig) => {
+      try {
+        let queryResult = await apiClient
+          .get<FetchMoviesResponse>("/movies/", {
+            signal: controller.signal,
+            ...requestConfig,
+          })
+          .then((res) => res.data.results);
+
+        if (requestConfig?.params.q) {
+          const searchResult = await apiClient
+            .get<FetchMoviesResponse>("/movies/search", {
+              signal: controller.signal,
+              params: { q: requestConfig.params.q, limit: 100 },
+            })
+            .then((res) => res.data.results);
+
+          const searchMovieIds = new Set(
+            searchResult.map((movie) => movie.movie_id)
+          );
+          queryResult = queryResult.filter((movie) =>
+            searchMovieIds.has(movie.movie_id)
+          );
+        }
+        setMovies(queryResult);
+        setLoading(false);
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        if (!(error instanceof CanceledError)) {
+          setError(axiosError.message);
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchQueryMovie(requestConfig);
+  }, deps);
+
+  return { movies, error, isLoading, setLoading };
+};
+
+export default useMovie;
