@@ -9,6 +9,25 @@ interface Props {
 const SearchInput = ({ onSearch }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
 
+  const debounce = <F extends (...args: any[]) => void>(
+    func: F,
+    delay: number
+  ) => {
+    let timerId: NodeJS.Timeout;
+    return (...args: Parameters<F>) => {
+      clearTimeout(timerId);
+      timerId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(event.target.value);
+  };
+
+  const handleDebouncedChange = debounce(handleChange, 1000);
+
   return (
     <form
       onSubmit={(event) => {
@@ -23,9 +42,7 @@ const SearchInput = ({ onSearch }: Props) => {
           borderRadius={20}
           placeholder="Search Movies..."
           variant="filled"
-          onChange={(event) => {
-            setTimeout(() => onSearch(event.target.value), 100);
-          }}
+          onChange={handleDebouncedChange}
         ></Input>
       </InputGroup>
     </form>
