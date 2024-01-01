@@ -25,28 +25,27 @@ import MoviesRecommended from "./components/MoviesRecommended";
 import GenresSelector from "./components/GenresSelector";
 import SearchInput from "./components/SearchInput";
 
+type query = {
+  genre: string;
+  order_by: string;
+  q: string | undefined;
+  page_size: number;
+};
+
 function App() {
-  const defaultEndPoint = "/movies/";
-  const searchEndPoint = "/movies/search";
-  const [dataEndpoint, setDataEndpoint] = useState<string>(defaultEndPoint);
-  const [selectedGenre, setSelectedGenre] = useState<string>("");
-  const [selectedOrderBy, setSelectedOrderBy] = useState<string>("");
-  const [searchText, setSearchText] = useState<string | undefined>(undefined);
+  const initQuery = { genre: "", order_by: "", q: undefined, page_size: 100 };
+
+  const [query, setQuery] = useState<query>(initQuery);
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([]);
   const [isRecommending, setIsRecommending] = useState(false);
   const [recommendingError, setRecommendingError] = useState("");
 
   const { movies, error, isLoading } = useMovie(
-    dataEndpoint,
     {
-      params: {
-        genre: selectedGenre,
-        order_by: selectedOrderBy,
-        q: searchText,
-      },
+      params: query,
     },
-    [selectedGenre, selectedOrderBy, searchText, dataEndpoint]
+    [query]
   );
 
   const removeMovie = (movie_id: number) => {
@@ -85,10 +84,9 @@ function App() {
         <GridItem area="aside" paddingLeft={5}>
           <GenresList
             onSelectGenre={(genre) => {
-              setDataEndpoint(defaultEndPoint);
-              setSelectedGenre(genre);
+              setQuery({ ...query, genre: genre });
             }}
-            selectedGenre={selectedGenre}
+            selectedGenre={query.genre}
           />
         </GridItem>
       </Show>
@@ -161,30 +159,25 @@ function App() {
           <HStack>
             <SearchInput
               onSearch={(q) => {
-                if (q) {
-                  setDataEndpoint(searchEndPoint);
-                  setSearchText(q);
-                }
+                setQuery({ ...query, q: q });
               }}
             />
             <GenresSelector
-              selectedGenre={selectedGenre}
+              selectedGenre={query.genre}
               onSelectGenre={(genre) => {
-                setDataEndpoint(defaultEndPoint);
-                setSelectedGenre(genre);
+                setQuery({ ...query, genre: genre });
               }}
             />
             <SortSelector
-              Orderby={selectedOrderBy}
-              OnOrderBy={(orderby) => {
-                setDataEndpoint(defaultEndPoint);
-                setSelectedOrderBy(orderby);
+              Orderby={query.order_by}
+              OnOrderBy={(order_by) => {
+                setQuery({ ...query, order_by: order_by });
               }}
             />
           </HStack>
 
           <MovieGrid
-            selectedGenre={selectedGenre}
+            selectedGenre={query.genre}
             movies={movies}
             error={error}
             isLoading={isLoading}

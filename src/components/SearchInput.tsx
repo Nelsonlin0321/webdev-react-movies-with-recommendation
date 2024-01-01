@@ -13,7 +13,7 @@ const SearchInput = ({ onSearch }: Props) => {
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        if (ref) onSearch(ref.current?.value);
+        onSearch(ref.current?.value);
       }}
     >
       <InputGroup>
@@ -23,6 +23,9 @@ const SearchInput = ({ onSearch }: Props) => {
           borderRadius={20}
           placeholder="Search Movies..."
           variant="filled"
+          onChange={(event) => {
+            setTimeout(() => onSearch(event.target.value), 100);
+          }}
         ></Input>
       </InputGroup>
     </form>
