@@ -6,7 +6,7 @@ import {
 } from "@chakra-ui/react";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCard from "./MovieCard";
-import { Movie } from "../hooks/useMovie";
+import { Movie } from "../services/searchService";
 import MovieGridContainer from "./MovieGridContainer";
 interface Props {
   selectedGenre: string;
