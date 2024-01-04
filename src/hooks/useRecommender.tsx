@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
 import apiRecommender from "../services/api-recommender";
 import { CanceledError } from "axios";
-
-export interface Movie {
-  movie_id: number;
-  release_year: number;
-  image_url: string;
-  genres: string[];
-  genre: string;
-  title: string;
-  rating: number;
-}
+import { Movie } from "../services/searchService";
 
 const useMovie = (deps?: any[]) => {
   const [movies, setMovies] = useState<Movie[]>([]);

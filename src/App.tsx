@@ -17,23 +17,30 @@ import { useState } from "react";
 import SortSelector from "./components/SortSelector";
 import useMovie from "./hooks/useMovie";
 import MoviesSelected from "./components/MoviesSelected";
-import { Movie } from "./hooks/useMovie";
 import SectionHeading from "./components/SectionHeading";
 import Form from "./components/Form";
 import GridItemContainer from "./components/GridItemContainer";
 import MoviesRecommended from "./components/MoviesRecommended";
 import GenresSelector from "./components/GenresSelector";
 import SearchInput from "./components/SearchInput";
+import { Movie } from "./services/searchService";
 
 type query = {
-  genre: string;
-  order_by: string;
   q: string | undefined;
-  page_size: number;
+  genre: string;
+  limit: number;
+  skip: number;
+  order_by: string;
 };
 
 function App() {
-  const initQuery = { genre: "", order_by: "", q: undefined, page_size: 100 };
+  const initQuery = {
+    genre: "",
+    order_by: "relevance",
+    q: undefined,
+    limit: 30,
+    skip: 0,
+  };
 
   const [query, setQuery] = useState<query>(initQuery);
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);

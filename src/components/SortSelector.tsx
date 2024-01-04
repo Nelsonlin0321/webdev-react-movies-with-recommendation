@@ -9,15 +9,17 @@ interface Props {
 const SortFieldMap: { [key: string]: string } = {
   release_year: "Release Year",
   rating: "Rating",
+  relevance: "Relevance",
 };
 
 const SortSelector = ({ OnOrderBy, Orderby }: Props) => {
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        Order By: {Orderby ? SortFieldMap[Orderby] : "Release Year"}
+        Order By: {Orderby ? SortFieldMap[Orderby] : "Relevance"}
       </MenuButton>
       <MenuList>
+        <MenuItem onClick={() => OnOrderBy("relevance")}>Relevance</MenuItem>
         <MenuItem onClick={() => OnOrderBy("release_year")}>
           Release Year
         </MenuItem>
