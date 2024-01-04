@@ -15,7 +15,6 @@ import MovieGrid from "./components/MovieGrid";
 import GenresList from "./components/Genres";
 import { useState } from "react";
 import SortSelector from "./components/SortSelector";
-import useMovie from "./hooks/useMovie";
 import MoviesSelected from "./components/MoviesSelected";
 import SectionHeading from "./components/SectionHeading";
 import Form from "./components/Form";
@@ -24,14 +23,7 @@ import MoviesRecommended from "./components/MoviesRecommended";
 import GenresSelector from "./components/GenresSelector";
 import SearchInput from "./components/SearchInput";
 import { Movie } from "./services/searchService";
-
-type query = {
-  q: string | undefined;
-  genre: string;
-  limit: number;
-  skip: number;
-  order_by: string;
-};
+import searchMovies, { Query } from "./hooks/searchMovie";
 
 function App() {
   const initQuery = {
@@ -42,18 +34,20 @@ function App() {
     skip: 0,
   };
 
-  const [query, setQuery] = useState<query>(initQuery);
+  const [query, setQuery] = useState<Query>(initQuery);
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([]);
   const [isRecommending, setIsRecommending] = useState(false);
   const [recommendingError, setRecommendingError] = useState("");
 
-  const { movies, error, isLoading } = useMovie(
-    {
-      params: query,
-    },
-    [query]
-  );
+  // const { movies, error, isLoading } = useMovie(
+  //   {
+  //     params: query,
+  //   },
+  //   [query]
+  // );
+
+  const infiniteQueryResult = searchMovies(query);
 
   const removeMovie = (movie_id: number) => {
     setSelectedMovies(
@@ -185,9 +179,7 @@ function App() {
 
           <MovieGrid
             selectedGenre={query.genre}
-            movies={movies}
-            error={error}
-            isLoading={isLoading}
+            infiniteQueryResult={infiniteQueryResult}
             addMovie={(movie: Movie) => {
               const movie_ids = selectedMovies.map((movie) => movie.movie_id);
               if (!movie_ids.includes(movie.movie_id)) {

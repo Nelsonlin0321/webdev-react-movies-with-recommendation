@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import axios, { AxiosRequestConfig } from "axios";
 const URL = "https://jh9d4gng3e.execute-api.ap-southeast-1.amazonaws.com/prod";
 // const URL = "http://localhost:8000";
 
@@ -14,7 +13,7 @@ class APIClient<T> {
     this.endpoint = endpoint;
   }
 
-  getAll = async (config?: any) => {
+  getAll = async (config?: AxiosRequestConfig<any>) => {
     const res = await axiosInstance.get<T>(this.endpoint, config);
     return res.data;
   };

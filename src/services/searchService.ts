@@ -9,7 +9,7 @@ export interface Movie {
   rating: number;
 }
 
-interface FetchMoviesResponse {
+export interface FetchMoviesResponse {
   count: number;
   results: Movie[];
 }

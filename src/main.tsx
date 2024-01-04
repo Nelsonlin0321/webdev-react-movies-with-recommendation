@@ -5,6 +5,7 @@ import App from "./App";
 import "./index.css";
 import theme from "./theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <QueryClientProvider client={queryClient}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <App />
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </ChakraProvider>
   </React.StrictMode>
