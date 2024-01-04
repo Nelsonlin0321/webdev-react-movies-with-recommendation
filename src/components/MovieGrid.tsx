@@ -3,6 +3,7 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Button,
 } from "@chakra-ui/react";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCard from "./MovieCard";
@@ -29,7 +30,7 @@ const MovieGrid = ({ selectedGenre, infiniteQueryResult, addMovie }: Props) => {
   }
 
   const {
-    isPending,
+    status,
     isError,
     error,
     data: MoviesResponseList,
@@ -37,6 +38,8 @@ const MovieGrid = ({ selectedGenre, infiniteQueryResult, addMovie }: Props) => {
     fetchNextPage,
     hasNextPage,
   } = infiniteQueryResult;
+
+  // setIsFirstLoad(false);
 
   return (
     <>
@@ -49,22 +52,28 @@ const MovieGrid = ({ selectedGenre, infiniteQueryResult, addMovie }: Props) => {
       )}
 
       <MovieGridContainer>
+        {status === "pending" &&
+          skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
         {MoviesResponseList?.pages.map((page, index) => (
           <React.Fragment key={index}>
-            {isFetchingNextPage
-              ? skeletons.map((skeleton) => (
-                  <MovieCardSkeleton key={skeleton} />
-                ))
-              : page.results.map((movie) => (
-                  <MovieCard
-                    addMovie={addMovie}
-                    key={movie.movie_id}
-                    movie={movie}
-                    imageClassName="image-card"
-                  />
-                ))}
+            {page.results.map((movie) => (
+              <MovieCard
+                addMovie={addMovie}
+                key={movie.movie_id}
+                movie={movie}
+                imageClassName="image-card"
+              />
+            ))}
           </React.Fragment>
         ))}
+        <Button
+          onClick={() => {
+            fetchNextPage();
+          }}
+          disabled={isFetchingNextPage || !hasNextPage}
+        >
+          {isFetchingNextPage ? "Loading..." : "Show More"}
+        </Button>
       </MovieGridContainer>
     </>
   );
