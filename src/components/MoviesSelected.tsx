@@ -1,5 +1,5 @@
+import { Movie } from "../services/searchService";
 import MovieCard from "./MovieCard";
-import { Movie } from "../hooks/useMovie";
 import MovieCloseButton from "./MovieCloseButton";
 import MovieGridContainer from "./MovieGridContainer";
 

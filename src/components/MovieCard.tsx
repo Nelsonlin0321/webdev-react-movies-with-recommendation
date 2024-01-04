@@ -3,8 +3,8 @@ import ReleaseYear from "./ReleaseYear";
 import StarRating from "./StarRating";
 import MovieCardContainer from "./MovieCardContainer";
 import "./MovieCard.css";
-import { Movie } from "../hooks/useMovie";
 import { ReactNode } from "react";
+import { Movie } from "../services/searchService";
 
 interface Props {
   movie: Movie;

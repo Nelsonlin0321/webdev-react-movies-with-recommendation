@@ -1,7 +1,7 @@
 import MovieCard from "./MovieCard";
-import { Movie } from "../hooks/useMovie";
 import MovieGridContainer from "./MovieGridContainer";
 import MovieCardSkeleton from "./MovieCardSkeleton";
+import { Movie } from "../services/searchService";
 
 interface Props {
   recommendedMovies: Movie[];
