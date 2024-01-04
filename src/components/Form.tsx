@@ -14,9 +14,9 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
-import { Movie } from "../hooks/useMovie";
 import apiRecommender from "../services/api-recommender";
 import { CanceledError } from "axios";
+import { Movie } from "../services/searchService";
 
 interface Props {
   selectedMovies: Movie[];
