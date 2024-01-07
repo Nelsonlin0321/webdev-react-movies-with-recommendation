@@ -17,13 +17,14 @@ import { useState } from "react";
 import SortSelector from "./components/SortSelector";
 import MoviesSelected from "./components/MoviesSelected";
 import SectionHeading from "./components/SectionHeading";
-import Form from "./components/Form";
+import Form, { recommendationInput } from "./components/Form";
 import GridItemContainer from "./components/GridItemContainer";
 import MoviesRecommended from "./components/MoviesRecommended";
 import GenresSelector from "./components/GenresSelector";
 import SearchInput from "./components/SearchInput";
-import { Movie } from "./services/searchService";
-import searchMovies, { Query } from "./hooks/searchMovie";
+import Movie from "./types/movie";
+import searchMovies, { Query } from "./hooks/searchMovies";
+import recommendMovies from "./hooks/recommendMovie";
 
 function App() {
   const initQuery = {
@@ -34,25 +35,41 @@ function App() {
     skip: 0,
   };
 
-  const [query, setQuery] = useState<Query>(initQuery);
-  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
-  const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([]);
-  const [isRecommending, setIsRecommending] = useState(false);
-  const [recommendingError, setRecommendingError] = useState("");
+  const initInputs: recommendationInput = {
+    user_age: 20,
+    sex: "M",
+    topk: 10,
+    movies: [],
+    rating_threshold: 4,
+  };
 
-  // const { movies, error, isLoading } = useMovie(
-  //   {
-  //     params: query,
-  //   },
-  //   [query]
-  // );
+  const [query, setQuery] = useState<Query>(initQuery);
+
+  const [recommendationInput, setRecommendationInput] = useState(initInputs);
 
   const infiniteQueryResult = searchMovies(query);
 
+  const {
+    data: recommendedMovies,
+    isError,
+    error: recommendingError,
+    refetch,
+    isFetching,
+  } = recommendMovies({
+    user_age: recommendationInput.user_age,
+    sex: recommendationInput.sex,
+    topk: recommendationInput.topk,
+    movie_ids: recommendationInput.movies.map((movie) => movie.movie_id),
+    rating_threshold: recommendationInput.rating_threshold,
+  });
+
   const removeMovie = (movie_id: number) => {
-    setSelectedMovies(
-      selectedMovies.filter((movie) => movie.movie_id != movie_id)
-    );
+    setRecommendationInput({
+      ...recommendationInput,
+      movies: recommendationInput.movies.filter(
+        (movie) => movie.movie_id != movie_id
+      ),
+    });
   };
 
   return (
@@ -92,67 +109,66 @@ function App() {
         </GridItem>
       </Show>
 
-      <GridItem area="form" padding={"30px"}>
+      <GridItem area="form" padding={"10px"}>
         <SectionHeading text="Let me know about you" />
+
         <Form
-          selectedMovies={selectedMovies}
-          setRecommendedMovies={setRecommendedMovies}
-          setIsRecommending={setIsRecommending}
-          setRecommendingError={setRecommendingError}
-          cancelSection={() => setSelectedMovies([])}
+          recommendationInput={recommendationInput}
+          setRecommendationInput={setRecommendationInput}
+          refetch={refetch}
         />
       </GridItem>
 
-      {(recommendedMovies.length != 0 ||
-        isRecommending ||
-        recommendingError) && (
-        <GridItemContainer>
-          <GridItem area="recommendation">
-            <SectionHeading text="Movies recommended" />
+      <GridItemContainer>
+        <GridItem area="recommendation">
+          <SectionHeading text="Movies recommended" />
 
-            {recommendingError && (
-              <Alert status="error" padding={"10px"}>
-                <AlertIcon />
-                <AlertTitle>Error:</AlertTitle>
-                <AlertDescription>{recommendingError}</AlertDescription>
+          {isError && (
+            <Alert status="error" padding={"10px"}>
+              <AlertIcon />
+              <AlertTitle>Error:</AlertTitle>
+              <AlertDescription>{recommendingError.message}</AlertDescription>
+            </Alert>
+          )}
+
+          {isFetching && recommendationInput.movies.length !== 0 && (
+            <HStack>
+              <Alert status="info">
+                <Spinner
+                  thickness="3px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="blue.500"
+                  size="lg"
+                />
+                <Text paddingLeft="5px">
+                  It's Recommending. Please wait a few seconds!
+                </Text>
               </Alert>
-            )}
+            </HStack>
+          )}
 
-            {isRecommending && (
-              <HStack>
-                <Alert status="info">
-                  <Spinner
-                    thickness="3px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="lg"
-                  />
-                  <Text paddingLeft="5px">
-                    It's Recommending. Please wait a few seconds!
-                  </Text>
-                </Alert>
-              </HStack>
-            )}
+          {removeMovie.length !== 0 && (
             <MoviesRecommended
               recommendedMovies={recommendedMovies}
-              isRecommending={isRecommending}
+              isRecommending={isFetching}
             />
-          </GridItem>
-        </GridItemContainer>
-      )}
+          )}
+        </GridItem>
+      </GridItemContainer>
 
-      {selectedMovies.length != 0 && (
+      {recommendationInput.movies?.length != 0 && (
         <GridItemContainer>
           <GridItem area="selection">
             <SectionHeading text="Movies selected" />
             <MoviesSelected
-              selectedMovies={selectedMovies}
+              selectedMovies={recommendationInput.movies}
               removeMovie={removeMovie}
             />
           </GridItem>
         </GridItemContainer>
       )}
+
       <GridItemContainer>
         <GridItem area="main">
           <SectionHeading text="Find and click movies you've watched" />
@@ -181,9 +197,14 @@ function App() {
             selectedGenre={query.genre}
             infiniteQueryResult={infiniteQueryResult}
             addMovie={(movie: Movie) => {
-              const movie_ids = selectedMovies.map((movie) => movie.movie_id);
+              const movie_ids = recommendationInput.movies.map(
+                (movie) => movie.movie_id
+              );
               if (!movie_ids.includes(movie.movie_id)) {
-                setSelectedMovies([...selectedMovies, movie]);
+                setRecommendationInput({
+                  ...recommendationInput,
+                  movies: [...recommendationInput.movies, movie],
+                });
               }
             }}
           />

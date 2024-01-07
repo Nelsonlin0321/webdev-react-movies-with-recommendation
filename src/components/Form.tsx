@@ -14,56 +14,49 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
-import apiRecommender from "../services/api-recommender";
-import { CanceledError } from "axios";
-import { Movie } from "../services/searchService";
+import Movie from "../types/movie";
+import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
+import toast, { Toaster } from "react-hot-toast";
+
+export type recommendationInput = {
+  user_age: number;
+  sex: "M" | "F";
+  topk: number;
+  movies: Movie[];
+  rating_threshold: number;
+};
 
 interface Props {
-  selectedMovies: Movie[];
-  setRecommendedMovies: (movies: Movie[]) => void;
-  setIsRecommending: (isRecommending: boolean) => void;
-  setRecommendingError: (error: string) => void;
-  cancelSection: (movies: Movie[]) => void;
+  recommendationInput: recommendationInput;
+  setRecommendationInput: (recommendationInput: recommendationInput) => void;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<Movie[], Error>>;
 }
 
 const Form = ({
-  selectedMovies,
-  setRecommendedMovies,
-  setIsRecommending,
-  setRecommendingError,
-  cancelSection,
+  recommendationInput,
+  setRecommendationInput,
+  refetch,
 }: Props) => {
   const { handleSubmit, register } = useForm();
 
   const submitHandler = (data: FieldValues) => {
-    const movie_ids = selectedMovies.map((movie) => movie.movie_id);
-
-    if (movie_ids.length == 0) {
-      setRecommendingError("please select at least one movie you've watched!");
+    if (recommendationInput.movies.length == 0) {
+      toast.error("please select at least one movie you've watched!");
       return;
     }
-    setIsRecommending(true);
-    setRecommendedMovies([]);
+
     const params = {
       user_age: parseInt(data.user_age),
       sex: data.sex,
       topk: 10,
-      movie_ids: movie_ids,
+      movies: recommendationInput.movies,
       rating_threshold: 4,
     };
-    setRecommendingError("");
-    apiRecommender
-      .post<Movie[]>("/recommend", params)
-      .then((res) => {
-        setRecommendedMovies(res.data);
-        setIsRecommending(false);
-      })
-      .catch((err) => {
-        if (!(err instanceof CanceledError)) {
-          setRecommendingError(err.message);
-          setIsRecommending(false);
-        }
-      });
+
+    setRecommendationInput(params);
+    refetch();
   };
 
   return (
@@ -103,7 +96,12 @@ const Form = ({
               <Button
                 colorScheme="facebook"
                 variant="outline"
-                onClick={() => cancelSection([])}
+                onClick={() => {
+                  setRecommendationInput({
+                    ...recommendationInput,
+                    movies: [],
+                  });
+                }}
               >
                 Clear Selection
               </Button>
@@ -111,6 +109,7 @@ const Form = ({
           </Wrap>
         </FormControl>
       </form>
+      <Toaster />
     </Box>
   );
 };

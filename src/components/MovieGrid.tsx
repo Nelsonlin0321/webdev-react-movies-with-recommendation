@@ -7,7 +7,8 @@ import {
 } from "@chakra-ui/react";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCard from "./MovieCard";
-import { FetchMoviesResponse, Movie } from "../services/searchService";
+import { FetchMoviesResponse } from "../services/searchService";
+import Movie from "../types/movie";
 import MovieGridContainer from "./MovieGridContainer";
 import { UseInfiniteQueryResult, InfiniteData } from "@tanstack/react-query";
 import React from "react";
