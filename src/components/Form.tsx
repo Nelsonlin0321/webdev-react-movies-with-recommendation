@@ -48,7 +48,7 @@ const Form = ({
 
   const submitHandler = (data: FieldValues) => {
     if (recommendationInput.movies.length == 0) {
-      toast.error("please select at least one movie you've watched!");
+      toast.error("please click least one movie you've watched!");
       return;
     }
 

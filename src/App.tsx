@@ -134,7 +134,7 @@ function App() {
 
       <GridItemContainer>
         <GridItem area="recommendation">
-          <SectionHeading text="Movies recommended" />
+          {recommendedMovies && <SectionHeading text="Movies recommended" />}
 
           {isError && (
             <Alert status="error" padding={"10px"}>
@@ -173,7 +173,7 @@ function App() {
       {recommendationInput.movies?.length != 0 && (
         <GridItemContainer>
           <GridItem area="selection">
-            <SectionHeading text="Movies selected" />
+            <SectionHeading text="Movies you've watched before" />
             <MoviesSelected
               selectedMovies={recommendationInput.movies}
               removeMovie={removeMovie}
@@ -203,6 +203,7 @@ function App() {
               OnOrderBy={(order_by) => {
                 setQuery({ ...query, order_by: order_by });
               }}
+              query={query}
             />
           </HStack>
 
