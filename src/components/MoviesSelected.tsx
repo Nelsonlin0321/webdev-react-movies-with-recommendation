@@ -1,4 +1,4 @@
-import Movie from "../types/movie";
+import { Movie } from "../types/movie";
 import MovieCard from "./MovieCard";
 import MovieCloseButton from "./MovieCloseButton";
 import MovieGridContainer from "./MovieGridContainer";

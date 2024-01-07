@@ -14,9 +14,10 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
-import Movie from "../types/movie";
 import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
+import { Movie } from "../types/movie";
+import { Query } from "../hooks/searchMovies";
 
 export type recommendationInput = {
   user_age: number;
@@ -27,6 +28,8 @@ export type recommendationInput = {
 };
 
 interface Props {
+  query: Query;
+  setQuery: (query: Query) => void;
   recommendationInput: recommendationInput;
   setRecommendationInput: (recommendationInput: recommendationInput) => void;
   refetch: (
@@ -35,6 +38,8 @@ interface Props {
 }
 
 const Form = ({
+  query,
+  setQuery,
   recommendationInput,
   setRecommendationInput,
   refetch,
@@ -43,7 +48,7 @@ const Form = ({
 
   const submitHandler = (data: FieldValues) => {
     if (recommendationInput.movies.length == 0) {
-      toast.error("please select at least one movie you've watched!");
+      toast.error("please click least one movie you've watched!");
       return;
     }
 
@@ -66,7 +71,14 @@ const Form = ({
           <Wrap align="center">
             <Box paddingRight={"10px"}>
               <FormLabel htmlFor="user_age">Age</FormLabel>
-              <NumberInput defaultValue={25} min={18} max={60}>
+              <NumberInput
+                defaultValue={25}
+                min={18}
+                max={60}
+                onChange={(age) =>
+                  setQuery({ ...query, user_age: parseInt(age) })
+                }
+              >
                 <NumberInputField {...register("user_age")} />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -78,7 +90,12 @@ const Form = ({
               <FormLabel as="legend" htmlFor="sex">
                 Gender
               </FormLabel>
-              <RadioGroup defaultValue="M">
+              <RadioGroup
+                defaultValue="M"
+                onChange={(gender) =>
+                  setQuery({ ...query, sex: gender as "M" | "F" })
+                }
+              >
                 <HStack spacing="20px">
                   <Radio value="M" {...register("sex")}>
                     Male

@@ -1,5 +1,5 @@
+import { Movie } from "../types/movie";
 import APIClient from "./api-client";
-import Movie from "../types/movie";
 export interface FetchMoviesResponse {
   count: number;
   results: Movie[];
