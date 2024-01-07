@@ -1,10 +1,10 @@
 import MovieCard from "./MovieCard";
 import MovieGridContainer from "./MovieGridContainer";
 import MovieCardSkeleton from "./MovieCardSkeleton";
-import { Movie } from "../services/searchService";
+import Movie from "../types/movie";
 
 interface Props {
-  recommendedMovies: Movie[];
+  recommendedMovies: Movie[] | undefined;
   isRecommending: boolean;
 }
 
@@ -17,12 +17,11 @@ const MovieRecommended = ({ recommendedMovies, isRecommending }: Props) => {
 
   return (
     <MovieGridContainer>
-      {isRecommending &&
-        skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
-
-      {recommendedMovies.map((movie) => (
-        <MovieCard key={movie.movie_id} movie={movie} />
-      ))}
+      {isRecommending
+        ? skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)
+        : recommendedMovies?.map((movie) => (
+            <MovieCard key={movie.movie_id} movie={movie} />
+          ))}
     </MovieGridContainer>
   );
 };
