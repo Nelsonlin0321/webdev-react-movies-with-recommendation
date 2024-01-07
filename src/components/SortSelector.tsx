@@ -10,6 +10,7 @@ const SortFieldMap: { [key: string]: string } = {
   release_year: "Release Year",
   rating: "Rating",
   relevance: "Relevance",
+  personalization: "Your Interest",
 };
 
 const SortSelector = ({ OnOrderBy, Orderby }: Props) => {
@@ -24,6 +25,9 @@ const SortSelector = ({ OnOrderBy, Orderby }: Props) => {
           Release Year
         </MenuItem>
         <MenuItem onClick={() => OnOrderBy("rating")}>Rating</MenuItem>
+        <MenuItem onClick={() => OnOrderBy("personalization")}>
+          Your interest
+        </MenuItem>
       </MenuList>
     </Menu>
   );

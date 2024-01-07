@@ -8,7 +8,7 @@ import {
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCard from "./MovieCard";
 import { FetchMoviesResponse } from "../services/searchService";
-import Movie from "../types/movie";
+import { Movie } from "../types/movie";
 import MovieGridContainer from "./MovieGridContainer";
 import { UseInfiniteQueryResult, InfiniteData } from "@tanstack/react-query";
 import React from "react";
@@ -67,15 +67,15 @@ const MovieGrid = ({ selectedGenre, infiniteQueryResult, addMovie }: Props) => {
             ))}
           </React.Fragment>
         ))}
-        <Button
-          onClick={() => {
-            fetchNextPage();
-          }}
-          disabled={isFetchingNextPage || !hasNextPage}
-        >
-          {isFetchingNextPage ? "Loading..." : "Show More"}
-        </Button>
       </MovieGridContainer>
+      <Button
+        onClick={() => {
+          fetchNextPage();
+        }}
+        disabled={isFetchingNextPage || !hasNextPage}
+      >
+        {isFetchingNextPage ? "Loading..." : "Show More"}
+      </Button>
     </>
   );
 };

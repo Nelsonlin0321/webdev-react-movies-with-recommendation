@@ -22,19 +22,11 @@ import GridItemContainer from "./components/GridItemContainer";
 import MoviesRecommended from "./components/MoviesRecommended";
 import GenresSelector from "./components/GenresSelector";
 import SearchInput from "./components/SearchInput";
-import Movie from "./types/movie";
 import searchMovies, { Query } from "./hooks/searchMovies";
 import recommendMovies from "./hooks/recommendMovie";
+import { Movie } from "./types/movie";
 
 function App() {
-  const initQuery = {
-    genre: "",
-    order_by: "relevance",
-    q: undefined,
-    limit: 30,
-    skip: 0,
-  };
-
   const initInputs: recommendationInput = {
     user_age: 20,
     sex: "M",
@@ -43,11 +35,19 @@ function App() {
     rating_threshold: 4,
   };
 
-  const [query, setQuery] = useState<Query>(initQuery);
-
   const [recommendationInput, setRecommendationInput] = useState(initInputs);
 
-  const infiniteQueryResult = searchMovies(query);
+  const initQuery = {
+    genre: "",
+    order_by: "relevance",
+    q: undefined,
+    limit: 30,
+    skip: 0,
+
+    user_age: recommendationInput.user_age,
+    sex: recommendationInput.sex,
+    viewed_movie_ids: recommendationInput.movies.map((movie) => movie.movie_id),
+  };
 
   const {
     data: recommendedMovies,
@@ -63,11 +63,22 @@ function App() {
     rating_threshold: recommendationInput.rating_threshold,
   });
 
+  const [query, setQuery] = useState<Query>(initQuery);
+
+  const infiniteQueryResult = searchMovies(query);
+
   const removeMovie = (movie_id: number) => {
     setRecommendationInput({
       ...recommendationInput,
       movies: recommendationInput.movies.filter(
         (movie) => movie.movie_id != movie_id
+      ),
+    });
+
+    setQuery({
+      ...query,
+      viewed_movie_ids: query.viewed_movie_ids.filter(
+        (current_movie_id) => current_movie_id != movie_id
       ),
     });
   };
@@ -113,6 +124,8 @@ function App() {
         <SectionHeading text="Let me know about you" />
 
         <Form
+          query={query}
+          setQuery={setQuery}
           recommendationInput={recommendationInput}
           setRecommendationInput={setRecommendationInput}
           refetch={refetch}
@@ -200,10 +213,16 @@ function App() {
               const movie_ids = recommendationInput.movies.map(
                 (movie) => movie.movie_id
               );
+
               if (!movie_ids.includes(movie.movie_id)) {
                 setRecommendationInput({
                   ...recommendationInput,
                   movies: [...recommendationInput.movies, movie],
+                });
+
+                setQuery({
+                  ...query,
+                  viewed_movie_ids: [...query.viewed_movie_ids, movie.movie_id],
                 });
               }
             }}

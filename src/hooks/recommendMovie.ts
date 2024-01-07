@@ -1,16 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import Movie from "../types/movie";
+import { Movie, recommendationInputs } from "../types/movie";
 import recommendationService from "../services/recommendationService";
 
-type RecommendationInputs = {
-  user_age: number;
-  sex: "M" | "F";
-  topk: number;
-  movie_ids: number[];
-  rating_threshold: number;
-};
-
-const recommendMovies = (data: RecommendationInputs) => {
+const recommendMovies = (data: recommendationInputs) => {
   const recommend = () => recommendationService.recommend(data);
 
   return useQuery<Movie[]>({

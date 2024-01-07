@@ -4,7 +4,7 @@ import StarRating from "./StarRating";
 import MovieCardContainer from "./MovieCardContainer";
 import "./MovieCard.css";
 import { ReactNode } from "react";
-import Movie from "../types/movie";
+import { Movie } from "../types/movie";
 
 interface Props {
   movie: Movie;

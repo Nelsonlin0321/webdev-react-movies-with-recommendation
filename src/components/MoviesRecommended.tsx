@@ -1,8 +1,7 @@
 import MovieCard from "./MovieCard";
 import MovieGridContainer from "./MovieGridContainer";
 import MovieCardSkeleton from "./MovieCardSkeleton";
-import Movie from "../types/movie";
-
+import { Movie } from "../types/movie";
 interface Props {
   recommendedMovies: Movie[] | undefined;
   isRecommending: boolean;
