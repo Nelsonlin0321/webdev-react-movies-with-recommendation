@@ -60,7 +60,7 @@ const searchMovies = (query: Query) => {
 
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.results.length > 0 ? allPages.length + 1 : undefined;
+      return lastPage.results.length === 0 ? undefined : allPages.length + 1;
     },
   });
 };

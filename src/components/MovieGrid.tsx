@@ -3,7 +3,7 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
-  Button,
+  Spinner,
 } from "@chakra-ui/react";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCard from "./MovieCard";
@@ -12,6 +12,8 @@ import { Movie } from "../types/movie";
 import MovieGridContainer from "./MovieGridContainer";
 import { UseInfiniteQueryResult, InfiniteData } from "@tanstack/react-query";
 import React from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 interface Props {
   selectedGenre: string;
   infiniteQueryResult: UseInfiniteQueryResult<
@@ -35,12 +37,18 @@ const MovieGrid = ({ selectedGenre, infiniteQueryResult, addMovie }: Props) => {
     isError,
     error,
     data: MoviesResponseList,
-    isFetchingNextPage,
+    // isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
   } = infiniteQueryResult;
 
   // setIsFirstLoad(false);
+
+  const fetchedMovieCount =
+    MoviesResponseList?.pages.reduce(
+      (total, page) => total + page.results.length,
+      0
+    ) || 0;
 
   return (
     <>
@@ -51,31 +59,37 @@ const MovieGrid = ({ selectedGenre, infiniteQueryResult, addMovie }: Props) => {
           <AlertDescription>{error.message}</AlertDescription>
         </Alert>
       )}
-
-      <MovieGridContainer>
-        {status === "pending" &&
-          skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
-        {MoviesResponseList?.pages.map((page, index) => (
-          <React.Fragment key={index}>
-            {page.results.map((movie) => (
-              <MovieCard
-                addMovie={addMovie}
-                key={movie.movie_id}
-                movie={movie}
-                imageClassName="image-card"
-              />
-            ))}
-          </React.Fragment>
-        ))}
-      </MovieGridContainer>
-      <Button
+      <InfiniteScroll
+        dataLength={fetchedMovieCount}
+        hasMore={hasNextPage}
+        next={() => fetchNextPage()}
+        loader={<Spinner />}
+      >
+        <MovieGridContainer>
+          {status === "pending" &&
+            skeletons.map((skeleton) => <MovieCardSkeleton key={skeleton} />)}
+          {MoviesResponseList?.pages.map((page, index) => (
+            <React.Fragment key={index}>
+              {page.results.map((movie) => (
+                <MovieCard
+                  addMovie={addMovie}
+                  key={movie.movie_id}
+                  movie={movie}
+                  imageClassName="image-card"
+                />
+              ))}
+            </React.Fragment>
+          ))}
+        </MovieGridContainer>
+      </InfiniteScroll>
+      {/* <Button
         onClick={() => {
           fetchNextPage();
         }}
         disabled={isFetchingNextPage || !hasNextPage}
       >
         {isFetchingNextPage ? "Loading..." : "Show More"}
-      </Button>
+      </Button> */}
     </>
   );
 };
