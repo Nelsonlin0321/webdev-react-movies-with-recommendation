@@ -1,6 +1,7 @@
 import searchService, { FetchMoviesResponse } from "../services/searchService";
 import recommendationService from "../services/recommendationService";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import ms from "ms";
 
 export type Query = {
   q: string | undefined;
@@ -62,6 +63,7 @@ const searchMovies = (query: Query) => {
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.results.length === 0 ? undefined : allPages.length + 1;
     },
+    staleTime: ms("24h"),
   });
 };
 
